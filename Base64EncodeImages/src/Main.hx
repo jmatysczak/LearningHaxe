@@ -12,7 +12,7 @@ class Main {
 		var imagePaths = images.map(function(image) return imageDir + "/" + image);
 		var imageBytes = imagePaths.map(File.getBytes);
 		var imageBase64s = imageBytes.map(ConvertToBase64String);
-		var imageHTMLs = imageBase64s.map(function(imageBase64) return "<p><img src='data:image/jpg;base64," + imageBase64 + "'/></p>");
+		var imageHTMLs = imageBase64s.map(function(imageBase64) return "<img src='data:image/jpg;base64," + imageBase64 + "'/>");
 
 		var page = new StringBuf();
 		page.add("<html><body>");
