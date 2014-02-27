@@ -29,13 +29,21 @@ class Main {
 		var spriteBytes = new BytesOutput();
 		for (imageData in imageDatas) {
 			var header = Tools.getHeader(imageData);
-			if (header.width < maxWidthTotalHeight.MaxWidth) {
-				maxWidthTotalHeight.TotalHeight -= header.height;
-				continue;
-			}
 			var imageDataBytes = Tools.extract32(imageData);
-			spriteBytes.writeBytes(imageDataBytes, 0, imageDataBytes.length);
+			if (header.width < maxWidthTotalHeight.MaxWidth) {
+				//maxWidthTotalHeight.TotalHeight -= header.height;
+				//continue;
+				var spacing = Std.int(maxWidthTotalHeight.MaxWidth - header.width);
+				for (h in 0...header.height) {
+					spriteBytes.writeBytes(imageDataBytes, h * header.width * 4, header.width * 4);
+					for (w in 0...spacing) spriteBytes.writeInt32(0);
+				}
+			} else {
+				spriteBytes.writeBytes(imageDataBytes, 0, imageDataBytes.length);
+			}
 		}
+
+		//Sys.println(maxWidthTotalHeight.MaxWidth * maxWidthTotalHeight.TotalHeight * 4 + " vs " + spriteBytes.getBytes().length);
 
 		var spriteData = Tools.build32BGRA(Std.int(maxWidthTotalHeight.MaxWidth), maxWidthTotalHeight.TotalHeight, spriteBytes.getBytes());
 		new Writer(File.write("sprite.png", true)).write(spriteData);
