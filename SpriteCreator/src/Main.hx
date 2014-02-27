@@ -20,12 +20,7 @@ class Main {
 			maxWidthTotalHeight.TotalHeight += header.height;
 			return maxWidthTotalHeight;
 		}, {MaxWidth : 0, TotalHeight : 0});
-		for (imageData in imageDatas) {
-			var header = Tools.getHeader(imageData);
-			Sys.println(header.width + ", " + header.height + ", " + header.colbits + ", " + header.color);
-		}
-		Sys.println(maxWidthTotalHeight);
-		
+
 		var spriteBytes = new BytesOutput();
 		for (imageData in imageDatas) {
 			var header = Tools.getHeader(imageData);
