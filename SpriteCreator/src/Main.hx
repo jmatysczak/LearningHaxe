@@ -34,8 +34,11 @@ class Main {
 		}
 
 		var spriteImage = Tools.build32BGRA(Std.int(maxWidth), totalHeight, spriteBytes.getBytes());
-		var spriteOut = File.write("sprite.png", true);
-		new Writer(spriteOut).write(spriteImage);
+		var spriteImageFile = File.write("sprite.png", true);
+		new Writer(spriteImageFile).write(spriteImage);
 
+		var currentTop = 0;
+		for (i in 0...imageNames.length) {
+		}
 	}
 }
