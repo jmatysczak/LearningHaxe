@@ -11,8 +11,8 @@ class Main {
 	
 	static function main() {
 		var imageDir = "../images";
-		var images = FileSystem.readDirectory(imageDir);
-		var imagePaths = images.map(function(image) return imageDir + "/" + image);
+		var imageNames = FileSystem.readDirectory(imageDir);
+		var imagePaths = imageNames.map(function(image) return imageDir + "/" + image);
 		var imageDatas = imagePaths.map(function(imagePath) return new Reader(File.read(imagePath, true)).read());
 		var imageHeaders = imageDatas.map(Tools.getHeader);
 		var maxWidth = Lambda.fold(imageHeaders, function(imageHeader, width) return Math.max(width, imageHeader.width), 0);
@@ -33,8 +33,9 @@ class Main {
 			}
 		}
 
-		var spriteData = Tools.build32BGRA(Std.int(maxWidth), totalHeight, spriteBytes.getBytes());
+		var spriteImage = Tools.build32BGRA(Std.int(maxWidth), totalHeight, spriteBytes.getBytes());
 		var spriteOut = File.write("sprite.png", true);
-		new Writer(spriteOut).write(spriteData);
+		new Writer(spriteOut).write(spriteImage);
+
 	}
 }
