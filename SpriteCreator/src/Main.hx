@@ -14,19 +14,16 @@ class Main {
 		var images = FileSystem.readDirectory(imageDir);
 		var imagePaths = images.map(function(image) return imageDir + "/" + image);
 		var imageDatas = imagePaths.map(function(imagePath) return new Reader(File.read(imagePath, true)).read());
-		var maxWidthTotalHeight = Lambda.fold(imageDatas, function(imageData, maxWidthTotalHeight) {
-			var header = Tools.getHeader(imageData);
-			maxWidthTotalHeight.MaxWidth = Math.max(maxWidthTotalHeight.MaxWidth, header.width);
-			maxWidthTotalHeight.TotalHeight += header.height;
-			return maxWidthTotalHeight;
-		}, {MaxWidth : 0, TotalHeight : 0});
+		var imageHeaders = imageDatas.map(Tools.getHeader);
+		var maxWidth = Lambda.fold(imageHeaders, function(imageHeader, width) return Math.max(width, imageHeader.width), 0);
+		var totalHeight = Lambda.fold(imageHeaders, function(imageHeader, height) return height + imageHeader.height, 0);
 
 		var spriteBytes = new BytesOutput();
 		for (imageData in imageDatas) {
 			var header = Tools.getHeader(imageData);
 			var imageDataBytes = Tools.extract32(imageData);
-			if (header.width < maxWidthTotalHeight.MaxWidth) {
-				var spacing = Std.int(maxWidthTotalHeight.MaxWidth - header.width);
+			if (header.width < maxWidth) {
+				var spacing = Std.int(maxWidth - header.width);
 				for (h in 0...header.height) {
 					spriteBytes.writeBytes(imageDataBytes, h * header.width * 4, header.width * 4);
 					for (w in 0...spacing) spriteBytes.writeInt32(0);
@@ -36,7 +33,7 @@ class Main {
 			}
 		}
 
-		var spriteData = Tools.build32BGRA(Std.int(maxWidthTotalHeight.MaxWidth), maxWidthTotalHeight.TotalHeight, spriteBytes.getBytes());
+		var spriteData = Tools.build32BGRA(Std.int(maxWidth), totalHeight, spriteBytes.getBytes());
 		new Writer(File.write("sprite.png", true)).write(spriteData);
 	}
 }
