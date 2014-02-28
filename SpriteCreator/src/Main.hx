@@ -9,7 +9,6 @@ import format.png.Tools;
 import format.png.Writer;
 
 class Main {
-	
 	static function main() {
 		var imageDir = "../images";
 		var imageNames = FileSystem.readDirectory(imageDir);
