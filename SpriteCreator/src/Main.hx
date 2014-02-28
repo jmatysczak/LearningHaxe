@@ -1,6 +1,7 @@
 package ;
 
 import haxe.io.BytesOutput;
+import haxe.io.Path;
 import sys.FileSystem;
 import sys.io.File;
 import format.png.Reader;
@@ -37,8 +38,23 @@ class Main {
 		var spriteImageFile = File.write("sprite.png", true);
 		new Writer(spriteImageFile).write(spriteImage);
 
+		var topSign = "";
 		var currentTop = 0;
-		for (i in 0...imageNames.length) {
+		var spriteStyleFile = File.write("sprite.css", false);
+		spriteStyleFile.writeString(".image{background-image:url(sprite.png); display:inline-block;}\n");
+		var imageNamesSansExtension = imageNames.map(Path.withoutExtension);
+		for (i in 0...imageNamesSansExtension.length) {
+			spriteStyleFile.writeString('.image-${imageNamesSansExtension[i]}{background-position:0px ${topSign}${currentTop}px; height:${imageHeaders[i].height}px; width: ${imageHeaders[i].width}px;}\n');
+			currentTop += imageHeaders[i].height;
+			topSign = "-";
 		}
+		spriteStyleFile.close();
+
+		var htmlFile = File.write("sprite.html", false);
+		htmlFile.writeString("<!doctype html><html><head><link href='sprite.css' rel='stylesheet' type='text/css'/></head><body>");
+		for (imageName in imageNamesSansExtension) {
+			htmlFile.writeString('<div class="image image-$imageName"></div>');
+		}
+		htmlFile.writeString("</body></html>");
 	}
 }
