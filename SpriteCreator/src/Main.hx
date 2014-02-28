@@ -38,15 +38,14 @@ class Main {
 		var spriteImageFile = File.write("sprite.png", true);
 		new Writer(spriteImageFile).write(spriteImage);
 
-		var topSign = "";
 		var currentTop = 0;
 		var spriteStyleFile = File.write("sprite.css", false);
-		spriteStyleFile.writeString(".image{background-image:url(sprite.png); display:inline-block;}\n");
 		var imageNamesSansExtension = imageNames.map(Path.withoutExtension);
+		spriteStyleFile.writeString(".image{background-image:url(sprite.png); display:inline-block;}\n");
 		for (i in 0...imageNamesSansExtension.length) {
-			spriteStyleFile.writeString('.image-${imageNamesSansExtension[i]}{background-position:0px ${topSign}${currentTop}px; height:${imageHeaders[i].height}px; width: ${imageHeaders[i].width}px;}\n');
-			currentTop += imageHeaders[i].height;
-			topSign = "-";
+			var imageHeader = imageHeaders[i];
+			spriteStyleFile.writeString('.image-${imageNamesSansExtension[i]}{background-position:0px ${currentTop}px; height:${imageHeader.height}px; width: ${imageHeader.width}px;}\n');
+			currentTop -= imageHeader.height;
 		}
 		spriteStyleFile.close();
 
@@ -56,5 +55,6 @@ class Main {
 			htmlFile.writeString('<div class="image image-$imageName"></div>');
 		}
 		htmlFile.writeString("</body></html>");
+		htmlFile.close();
 	}
 }
