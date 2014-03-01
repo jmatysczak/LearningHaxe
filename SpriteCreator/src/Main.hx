@@ -8,6 +8,8 @@ import format.png.Reader;
 import format.png.Tools;
 import format.png.Writer;
 
+using Lambda;
+
 class Main {
 	static function main() {
 		var imageDir = "../images";
@@ -15,8 +17,8 @@ class Main {
 		var imagePaths = imageNames.map(function(image) return imageDir + "/" + image);
 		var imageDatas = imagePaths.map(function(imagePath) return new Reader(File.read(imagePath, true)).read());
 		var imageHeaders = imageDatas.map(Tools.getHeader);
-		var maxWidth = Lambda.fold(imageHeaders, function(imageHeader, width) return Math.max(width, imageHeader.width), 0);
-		var totalHeight = Lambda.fold(imageHeaders, function(imageHeader, height) return height + imageHeader.height, 0);
+		var maxWidth = imageHeaders.fold(function(imageHeader, width) return Math.max(width, imageHeader.width), 0);
+		var totalHeight = imageHeaders.fold(function(imageHeader, height) return height + imageHeader.height, 0);
 
 		var spriteBytes = new BytesOutput();
 		for (imageData in imageDatas) {
