@@ -4,6 +4,7 @@ package ;
 
 class Main {
 	static function main() {
-		trace("Hello World!");
+		trace("Hello (trace) World!");
+		Sys.println("Hello (Sys.println) World!");
 	}
 }
