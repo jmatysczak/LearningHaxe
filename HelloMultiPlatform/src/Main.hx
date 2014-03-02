@@ -1,5 +1,4 @@
 package ;
-import haxe.macro.Context;
 
 class Main {
 	static function getCompilationTarget() {
