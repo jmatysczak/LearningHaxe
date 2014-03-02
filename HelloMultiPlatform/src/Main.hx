@@ -13,6 +13,6 @@ class Main {
 		#end
 	}
 	static function main() {
-		Sys.println('Hello (${getCompilationTarget()}) World');
+		Sys.println('Hello (${getCompilationTarget()}) World: ${Sys.executablePath()}');
 	}
 }
