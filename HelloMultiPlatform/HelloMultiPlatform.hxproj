@@ -36,12 +36,13 @@
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False" />
+  <postBuildCommand alwaysRun="False">haxe -cp src -cs $(OutputDir)/$(ProjectName) -main Main -$(BuildConfig)
+</postBuildCommand>
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
