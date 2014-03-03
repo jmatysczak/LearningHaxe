@@ -6,6 +6,8 @@ class Main {
 		return "c#";
 		#elseif java
 		return "java";
+		#elseif js
+		return "javascript";
 		#elseif neko
 		return "neko";
 		#else
@@ -13,6 +15,6 @@ class Main {
 		#end
 	}
 	static function main() {
-		Sys.println('Hello (${getCompilationTarget()}) World');
+		trace('Hello (${getCompilationTarget()}) World');
 	}
 }
