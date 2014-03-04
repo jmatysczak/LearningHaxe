@@ -16,6 +16,20 @@ class Main {
 		#end
 	}
 
+	inline static function getCompilationTargetInline() {
+		#if cs
+		return "c#";
+		#elseif java
+		return "java";
+		#elseif js
+		return "javascript";
+		#elseif neko
+		return "neko";
+		#else
+		return "not supported by 'getCompilationTarget'";
+		#end
+	}
+
 	macro static function getCompilationTargetMacro() {
 		var targetNames = ["-cs"=>"c#", "-java"=>"java", "-js"=>"javascript", "-neko"=>"neko"];
 		var target = Sys.args().filter(function(arg) return targetNames.exists(arg)).map(function(arg) return targetNames[arg]).pop();
@@ -23,6 +37,6 @@ class Main {
 	}
 
 	static function main() {
-		trace('Hello (${getCompilationTarget()} - ${getCompilationTargetMacro()}) World');
+		trace('Hello (${getCompilationTarget()} - ${getCompilationTargetInline()} - ${getCompilationTargetMacro()}) World');
 	}
 }
