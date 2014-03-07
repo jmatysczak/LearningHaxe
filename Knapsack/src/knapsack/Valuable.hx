@@ -10,4 +10,8 @@ class Valuable {
 		this.Value = value;
 		this.Weight = weight;
 	}
+
+	public function toString() {
+		return '{ Id => $Id, Value => $Value, Weight => $Weight }';
+	}
 }
