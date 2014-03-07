@@ -19,10 +19,13 @@ class Example {
 			var idValueWeight = line.split("\t");
 			return new Valuable(idValueWeight[0], Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
 		});
+
 		this.WeightLimit = Std.parseFloat(lines[numberOfValuables + 1]);
-		this.SolutionValue = Std.parseFloat(lines[numberOfValuables + 2].split("\t")[0]);
-		this.SolutionWeight = Std.parseFloat(lines[numberOfValuables + 2].split("\t")[1]);
-		this.SolutionIds = lines[numberOfValuables + 3].split("\t");
+
+		var solution = lines[numberOfValuables + 2].split("\t");
+		this.SolutionValue = Std.parseFloat(solution[0]);
+		this.SolutionWeight = Std.parseFloat(solution[1]);
+		this.SolutionIds = solution.slice(2);
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");

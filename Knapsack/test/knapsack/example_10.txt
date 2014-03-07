@@ -13,7 +13,5 @@ I	16.32	667482.86
 J	0.61	547863.02
 # The weight limit
 1286849.58 
-# The solution formatter value	weight
-63.09	 1156899.48 
-# The ids in the solution.
-E	F	G	H	I
+# The solution formatter value	weight	id1	id2	id3...
+63.09	 1156899.48	E	F	G	H	I
