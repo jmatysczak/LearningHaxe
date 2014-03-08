@@ -1,17 +1,11 @@
 package knapsack;
 
-import knapsack.Valuable;
+import knapsack.Solution;
 
 using StringTools;
 using knapsack.Example;
 
-class Example {
-	public var Valuables(default, null): Array<Valuable>;
-	public var WeightLimit(default, null): Float;
-	public var SolutionIds: Array<String>;
-	public var SolutionValue: Float;
-	public var SolutionWeight: Float;
-
+class Example extends Solution {
 	public function new(example: String) {
 		var lines = example.lines().withOutComments();
 		var numberOfValuables = Std.parseInt(lines[0]);
@@ -22,10 +16,8 @@ class Example {
 
 		this.WeightLimit = Std.parseFloat(lines[numberOfValuables + 1]);
 
-		var solution = lines[numberOfValuables + 2].split("\t");
-		this.SolutionValue = Std.parseFloat(solution[0]);
-		this.SolutionWeight = Std.parseFloat(solution[1]);
-		this.SolutionIds = solution.slice(2);
+		var best = lines[numberOfValuables + 2].split("\t");
+		this.Best = new Valuables(best.slice(2), Std.parseFloat(best[0]), Std.parseFloat(best[1]));
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");

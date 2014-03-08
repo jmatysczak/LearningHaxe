@@ -1,9 +1,9 @@
 package knapsack;
 
 class Valuable {
-	public var Id(default, null): String;
-	public var Value(default, null): Float;
-	public var Weight(default, null): Float;
+	public var Id : String;
+	public var Value : Float;
+	public var Weight : Float;
 
 	public function new(id, value, weight) {
 		this.Id = id;
