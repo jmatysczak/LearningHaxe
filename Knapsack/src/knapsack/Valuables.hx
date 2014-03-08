@@ -14,4 +14,9 @@ class Valuables {
 	public function toString() {
 		return '$Value\t$Weight\t${Ids.join("\t")}';
 	}
+
+	public static function fromString(s: String) {
+		var valueWeightIds = s.split("\t");
+		return new Valuables(valueWeightIds.slice(2), Std.parseFloat(valueWeightIds[0]), Std.parseFloat(valueWeightIds[1]));
+	}
 }

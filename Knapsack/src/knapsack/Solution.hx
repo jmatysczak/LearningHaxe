@@ -35,9 +35,9 @@ class Solution {
 			numberOfValuables = Std.parseInt(linesSansComments[0]);
 		solution.Valuables = linesSansComments.slice(1, numberOfValuables + OFFSET_WEIGHT_LIMIT).map(Valuable.fromString);
 		solution.WeightLimit = Std.parseFloat(linesSansComments[numberOfValuables + OFFSET_WEIGHT_LIMIT]);
-		solution.Best = linesSansComments[numberOfValuables + OFFSET_BEST].toValuables();
-		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(toValuables);
-		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(toValuables);
+		solution.Best = Valuables.fromString(linesSansComments[numberOfValuables + OFFSET_BEST]);
+		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
+		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 
 		var actual = solution.toString(),
 			expected = linesSansComments.join(NEWLINE());
@@ -55,8 +55,4 @@ class Solution {
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
 	static function notEmpty(lines: Array<String>) return lines.filter(function(line) return line.ltrim().length > 0);
 	static function withOutComments(lines: Array<String>) return lines.filter(function(line) return !line.ltrim().startsWith("#"));
-	static function toValuables(line: String) {
-		var valueWeightIds = line.split("\t");
-		return new Valuables(valueWeightIds.slice(2), Std.parseFloat(valueWeightIds[0]), Std.parseFloat(valueWeightIds[1]));
-	}
 }
