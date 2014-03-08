@@ -1,9 +1,9 @@
 package knapsack;
 
 class Valuable {
-	public var Id : String;
-	public var Value : Float;
-	public var Weight : Float;
+	public var Id: String;
+	public var Value: Float;
+	public var Weight: Float;
 
 	public function new(id, value, weight) {
 		this.Id = id;
@@ -13,5 +13,10 @@ class Valuable {
 
 	public function toString() {
 		return '$Id\t$Value\t$Weight';
+	}
+
+	public static function fromString(s: String) {
+		var idValueWeight = s.split("\t");
+		return new Valuable(idValueWeight[0], Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
 	}
 }

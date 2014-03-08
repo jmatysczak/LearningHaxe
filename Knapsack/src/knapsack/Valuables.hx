@@ -1,9 +1,9 @@
 package knapsack;
 
 class Valuables {
-	public var Ids : Array<String>;
-	public var Value : Float;
-	public var Weight : Float;
+	public var Ids: Array<String>;
+	public var Value: Float;
+	public var Weight: Float;
 
 	public function new(ids, value, weight) {
 		this.Ids = ids;
