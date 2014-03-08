@@ -14,6 +14,10 @@ class Solution {
 
 	public function new() { }
 
+	public function equals(other: Solution) {
+		return this.toString() == other.toString();
+	}
+
 	public function toString() {
 		return
 			this.Valuables.length + NEWLINE() +
