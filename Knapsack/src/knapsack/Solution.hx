@@ -14,11 +14,8 @@ class Solution {
 
 	public function new() { }
 
-	public function equals(other: Solution) {
-		return this.toString() == other.toString();
-	}
-
-	public function toString() {
+	public function toString(): String {
+		if (this.Valuables == null) return "";
 		return
 			this.Valuables.length + NEWLINE() +
 			this.Valuables.join(NEWLINE()) + NEWLINE() +
@@ -43,20 +40,37 @@ class Solution {
 		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 
-		solution.shouldBeEquivalentTo(linesSansComments.join(NEWLINE()));
+		solution.shouldBeEquivalentTo(linesSansComments.join(NEWLINE()), "The input was not parsed correctly.");
 
 		return solution;
 	}
 
-	function shouldBeEquivalentTo(expected: String) {
-		var actual = this.toString();
-		for (i in 0...expected.length)
-			if (actual.charCodeAt(i) != expected.charCodeAt(i))
-				throw
-					'The input was not parsed correctly. Different at position $i.\n' +
-					'Expected: ${expected.charAt(i)}(${expected.charCodeAt(i)})\n' +
-					'Actual:   ${actual.charAt(i)}(${actual.charCodeAt(i)})\n' +
-					'Actual/parsed solution:\n$this';
+	public function shouldEqual(other: Solution) {
+		this.shouldBeEquivalentTo(other.toString(), "The Solutions are not equal.");
+	}
+
+	function shouldBeEquivalentTo(expected: String, message: String) {
+		var errors = "",
+			actual = this.toString(),
+			minLength = Std.int(Math.min(actual.length, expected.length));
+
+		if (actual.length != expected.length)
+			errors +=
+				'The lengths are different.\n' +
+				'\tExpected: ${expected.length}\n' +
+				'\tActual:   ${actual.length}\n';
+
+		for (i in 0...minLength) {
+			if (actual.charCodeAt(i) != expected.charCodeAt(i)) {
+				errors +=
+					'The content is different at position $i.\n' +
+					'\tExpected: ${expected.charAt(i)}(${expected.charCodeAt(i)})\n' +
+					'\tActual:   ${actual.charAt(i)}(${actual.charCodeAt(i)})\n';
+				break;
+			}
+		}
+
+		if (errors.length > 0) throw '${message}\n${errors}Actual solution:\n$this';
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");

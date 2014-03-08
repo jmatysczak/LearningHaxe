@@ -2,6 +2,6 @@
 copy test\knapsack\*.txt bin
 cd bin
 neko Knapsack.n
-Knapsack-CS\bin\Knapsack-CS.exe
-java -jar Knapsack-Java\Knapsack-Java.jar
+rem Knapsack-CS\bin\Knapsack-CS.exe
+rem java -jar Knapsack-Java\Knapsack-Java.jar
 pause
