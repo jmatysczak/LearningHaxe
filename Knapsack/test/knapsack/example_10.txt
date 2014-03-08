@@ -13,9 +13,9 @@ I	16.32	667482.86
 J	0.61	547863.02
 # The weight limit
 1286849.58 
-# The solution formatter value	weight	id1	id2	id3...
-63.09	 1156899.48	E	F	G	H	I
-# Heat map/sensitivity pattern
+# The solution formatted: value	weight	id1	id2	id3...
+63.09	1156899.48	E	F	G	H	I
+# Heat map/sensitivity pattern formatted: value	weight	id1	id2	id3...
 35.83	202096.58	E	G
 43.01	262859.02	E	F	G
 46.76	489416.62	E	F	G	H
@@ -36,7 +36,7 @@ J	0.61	547863.02
 99.39	3741635.58	A	B	C	D	E	F	G	H	I
 99.39	3741635.58	A	B	C	D	E	F	G	H	I
 100.00	4289498.60	A	B	C	D	E	F	G	H	I	J
-# Efficient frontier
+# Efficient frontier formatted: value	weight	id1	id2	id3...
 18.86	41811.77	E
 26.04	102574.22	E	F
 35.83	202096.58	E	G
