@@ -12,6 +12,6 @@ class Valuable {
 	}
 
 	public function toString() {
-		return '{ Id => $Id, Value => $Value, Weight => $Weight }';
+		return '$Id\t$Value\t$Weight';
 	}
 }

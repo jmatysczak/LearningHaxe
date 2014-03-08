@@ -12,6 +12,6 @@ class Valuables {
 	}
 
 	public function toString() {
-		return '{ Value => $Value, Weight => $Weight, Ids => $Ids }';
+		return '$Value\t$Weight\t${Ids.join("\t")}';
 	}
 }
