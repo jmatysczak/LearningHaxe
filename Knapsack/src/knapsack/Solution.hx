@@ -39,17 +39,20 @@ class Solution {
 		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 
-		var actual = solution.toString(),
-			expected = linesSansComments.join(NEWLINE());
+		solution.shouldBeEquivalentTo(linesSansComments.join(NEWLINE()));
+
+		return solution;
+	}
+
+	function shouldBeEquivalentTo(expected: String) {
+		var actual = this.toString();
 		for (i in 0...expected.length)
 			if (actual.charCodeAt(i) != expected.charCodeAt(i))
 				throw
-					'The solution string was not parsed correctly. Different at position $i.\n' +
+					'The input was not parsed correctly. Different at position $i.\n' +
 					'Expected: ${expected.charAt(i)}(${expected.charCodeAt(i)})\n' +
 					'Actual:   ${actual.charAt(i)}(${actual.charCodeAt(i)})\n' +
-					solution;
-
-		return solution;
+					'Actual/parsed solution:\n$this';
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
