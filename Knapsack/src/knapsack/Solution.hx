@@ -15,14 +15,14 @@ class Solution {
 	public function new() { }
 
 	public function toString(): String {
-		if (this.Valuables == null) return "";
-		return
-			this.Valuables.length + NEWLINE() +
-			this.Valuables.join(NEWLINE()) + NEWLINE() +
-			this.WeightLimit + NEWLINE() +
-			this.Best + NEWLINE() +
-			this.HeatMap.join(NEWLINE()) + NEWLINE() +
-			this.EfficientFrontier.join(NEWLINE());
+		var s = "";
+
+		if (this.Valuables != null) s += this.Valuables.length + NEWLINE() + this.Valuables.join(NEWLINE()) + NEWLINE();
+		s += Std.string(this.WeightLimit) + NEWLINE() + this.Best + NEWLINE();
+		if (this.HeatMap != null) s += this.HeatMap.join(NEWLINE()) + NEWLINE();
+		if(this.EfficientFrontier!=null)s+=this.EfficientFrontier.join(NEWLINE());
+
+		return s;
 	}
 
 	public static function fromString(s: String) {
