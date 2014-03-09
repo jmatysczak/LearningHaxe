@@ -14,7 +14,7 @@ class FullSearch {
 			maxInSolution = (1 << (valuables.length + 1)) - 1,
 			heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
-			heatMap = [for(i in 1...heatMapSlotCount+1) new HeatMapItem(heatMapSlotWeight * i)];
+			heatMap = [for(i in 0...heatMapSlotCount) new HeatMapItem()];
 
 		for(inSolution in 1...maxInSolution) {
 			var value: Float = 0,
@@ -44,8 +44,7 @@ class FullSearch {
 			}
 		}
 
-		var bestIds = [];
-		for (i in 0...valuables.length) if (bestInSolution.hasBitSet(i)) bestIds.push(valuables[i].Id);
+		var bestIds = valuables.getIdsInSolution(bestInSolution);
 
 		var heatMapValuables = heatMap.map(function(heatMapItem) return new Valuables([], heatMapItem.Value, heatMapItem.Weight));
 
@@ -57,15 +56,18 @@ class FullSearch {
 	inline static function hasBitSet(n:Int, i: Int) {
 		return (n & (1 << i)) != 0;
 	}
+
+	static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
+		var ids = [];
+		for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) ids.push(valuables[i].Id);
+		return ids;
+	}
 }
 
 class HeatMapItem {
-	var MaxWeight: Float;
 	public var Value: Float = 0;
 	public var Weight: Float;
 	public var InSolution: Int;
 
-	public function new(maxWeight) {
-		this.MaxWeight = maxWeight;
-	}
+	public function new() { }
 }
