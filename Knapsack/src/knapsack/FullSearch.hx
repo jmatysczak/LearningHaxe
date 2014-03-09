@@ -11,12 +11,13 @@ class FullSearch {
 		var bestValue: Float = 0,
 			bestWeight: Float = 0,
 			bestInSolution = 0,
-			maxInSolution = (1 << (valuables.length + 1)) - 1,
+			inSolution = 0,
+			maxInSolution = (1 << valuables.length) - 1,
 			heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
 			heatMap = [for(i in 0...heatMapSlotCount) new HeatMapItem()];
 
-		for(inSolution in 1...maxInSolution) {
+		while(++inSolution <= maxInSolution) {
 			var value: Float = 0,
 				weight: Float = 0;
 
@@ -34,6 +35,7 @@ class FullSearch {
 			}
 
 			var heatMapStartIndex = Std.int(weight / heatMapSlotWeight);
+			if (heatMapStartIndex * heatMapSlotWeight == weight) heatMapStartIndex--;
 			for (i in heatMapStartIndex...heatMapSlotCount) {
 				if (value <= heatMap[i].Value) break;
 				var heatMapItem = heatMap[i];
