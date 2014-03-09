@@ -14,8 +14,8 @@ class FullSearch {
 			inSolution = 1 << valuables.length,
 			heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
-			heatMap = [for (i in 0...heatMapSlotCount) new HeatMapItem()],
-			efficientFrontier = new Array<HeatMapItem>();
+			heatMap = [for (i in 0...heatMapSlotCount) new TempValuables()],
+			efficientFrontier = new Array<TempValuables>();
 
 		while(--inSolution > 0) {
 			var value: Float = 0,
@@ -46,7 +46,7 @@ class FullSearch {
 			var efInsertIndex = -1;
 			while (++efInsertIndex < efficientFrontier.length) if (weight <= efficientFrontier[efInsertIndex].Weight) break;
 			if (efInsertIndex == 0 || efficientFrontier[efInsertIndex - 1].Value < value) {
-				efficientFrontier.insert(efInsertIndex, new HeatMapItem(value, weight, inSolution));
+				efficientFrontier.insert(efInsertIndex, new TempValuables(value, weight, inSolution));
 				var efDeleteStopIndex = efInsertIndex;
 				while (efDeleteStopIndex + 1 < efficientFrontier.length && efficientFrontier[efDeleteStopIndex + 1].Value < value) efDeleteStopIndex++;
 				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex + 1, efDeleteStopIndex - efInsertIndex);
@@ -67,12 +67,12 @@ class FullSearch {
 		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
 
-	static function toValuables(heatMapItems: Array<HeatMapItem>, valuables: Array<Valuable>) {
+	static function toValuables(heatMapItems: Array<TempValuables>, valuables: Array<Valuable>) {
 		return heatMapItems.map(function(heatMapItem) return new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight));
 	}
 }
 
-class HeatMapItem {
+class TempValuables {
 	public var Value: Float = 0;
 	public var Weight: Float;
 	public var InSolution: Int;
