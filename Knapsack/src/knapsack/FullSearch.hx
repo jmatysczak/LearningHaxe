@@ -10,17 +10,19 @@ class FullSearch {
 		var bestValue: Float = 0,
 			bestWeight: Float = 0,
 			bestInSolution = 0,
-			maxSolution = (1 << (valuables.length + 1)) - 1;
+			maxInSolution = (1 << (valuables.length + 1)) - 1;
 
-		for(inSolution in 1...maxSolution) {
+		for(inSolution in 1...maxInSolution) {
 			var value: Float = 0,
 				weight: Float = 0;
+
 			for (i in 0...valuables.length) {
 				if (inSolution.hasBitSet(i)) {
 					value += valuables[i].Value;
 					weight += valuables[i].Weight;
 				}
 			}
+
 			if (weight < weightLimit && bestValue < value) {
 				bestValue = value;
 				bestWeight = weight;
