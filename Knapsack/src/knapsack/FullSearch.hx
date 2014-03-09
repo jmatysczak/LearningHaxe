@@ -44,11 +44,10 @@ class FullSearch {
 			}
 		}
 
-		var bestIds = valuables.getIdsInSolution(bestInSolution);
+		var best = new Valuables(valuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
+		var heatMapValuables = heatMap.map(function(heatMapItem) return new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight));
 
-		var heatMapValuables = heatMap.map(function(heatMapItem) return new Valuables([], heatMapItem.Value, heatMapItem.Weight));
-
-		var solution = new Solution(valuables, weightLimit, new Valuables(bestIds, bestValue, bestWeight), heatMapValuables);
+		var solution = new Solution(valuables, weightLimit, best, heatMapValuables);
 
 		return solution;
 	}
