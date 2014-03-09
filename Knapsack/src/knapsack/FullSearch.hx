@@ -57,9 +57,7 @@ class FullSearch {
 	}
 
 	static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
-		var ids = [];
-		for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) ids.push(valuables[i].Id);
-		return ids;
+		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
 }
 
