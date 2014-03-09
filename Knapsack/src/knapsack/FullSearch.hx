@@ -35,12 +35,11 @@ class FullSearch {
 
 			var heatMapStartIndex = Std.int(weight / heatMapSlotWeight);
 			for (i in heatMapStartIndex...heatMapSlotCount) {
+				if (value <= heatMap[i].Value) break;
 				var heatMapItem = heatMap[i];
-				if (heatMapItem.Value < value) {
-					heatMapItem.Value = value;
-					heatMapItem.Weight = weight;
-					heatMapItem.InSolution = inSolution;
-				}
+				heatMapItem.Value = value;
+				heatMapItem.Weight = weight;
+				heatMapItem.InSolution = inSolution;
 			}
 		}
 
