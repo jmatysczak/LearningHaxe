@@ -33,8 +33,7 @@ class FullSearch {
 				bestInSolution = inSolution;
 			}
 
-			var heatMapStartIndex = Std.int(weight / heatMapSlotWeight);
-			if (heatMapStartIndex * heatMapSlotWeight == weight) heatMapStartIndex--;
+			var heatMapStartIndex = Math.ceil(weight / heatMapSlotWeight) - 1;
 			for (i in heatMapStartIndex...heatMapSlotCount) {
 				if (value <= heatMap[i].Value) break;
 				var heatMapItem = heatMap[i];
