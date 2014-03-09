@@ -12,7 +12,11 @@ class Solution {
 	public var HeatMap: Array<Valuables>;
 	public var EfficientFrontier: Array<Valuables>;
 
-	public function new() { }
+	public function new(?valuables, ?weightLimit, ?best) {
+		this.Valuables = valuables;
+		this.WeightLimit = weightLimit;
+		this.Best = best;
+	}
 
 	public function toString(): String {
 		var s = "";
