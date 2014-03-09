@@ -14,7 +14,8 @@ class FullSearch {
 			inSolution = 1 << valuables.length,
 			heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
-			heatMap = [for(i in 0...heatMapSlotCount) new HeatMapItem()];
+			heatMap = [for (i in 0...heatMapSlotCount) new HeatMapItem()],
+			efficientFrontier = new Array<HeatMapItem>();
 
 		while(--inSolution > 0) {
 			var value: Float = 0,
@@ -41,14 +42,21 @@ class FullSearch {
 				heatMapItem.Weight = weight;
 				heatMapItem.InSolution = inSolution;
 			}
+
+			var efInsertIndex = -1;
+			while (++efInsertIndex < efficientFrontier.length) if (weight <= efficientFrontier[efInsertIndex].Weight) break;
+			if (efInsertIndex == 0 || efficientFrontier[efInsertIndex - 1].Value < value) {
+				efficientFrontier.insert(efInsertIndex, new HeatMapItem(value, weight, inSolution));
+				var efDeleteStopIndex = efInsertIndex;
+				while (efDeleteStopIndex + 1 < efficientFrontier.length && efficientFrontier[efDeleteStopIndex + 1].Value < value) efDeleteStopIndex++;
+				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex + 1, efDeleteStopIndex - efInsertIndex);
+			}
 		}
 
 		var best = new Valuables(valuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
-		var heatMapValuables = heatMap.map(function(heatMapItem) return new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight));
-
-		var solution = new Solution(valuables, weightLimit, best, heatMapValuables);
-
-		return solution;
+		var heatMapValuables = heatMap.toValuables(valuables);
+		var efficientFrontierValuables = efficientFrontier.toValuables(valuables);
+		return new Solution(valuables, weightLimit, best, heatMapValuables, efficientFrontierValuables);
 	}
 
 	inline static function hasBitSet(n:Int, i: Int) {
@@ -58,6 +66,10 @@ class FullSearch {
 	static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
 		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
+
+	static function toValuables(heatMapItems: Array<HeatMapItem>, valuables: Array<Valuable>) {
+		return heatMapItems.map(function(heatMapItem) return new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight));
+	}
 }
 
 class HeatMapItem {
@@ -65,5 +77,9 @@ class HeatMapItem {
 	public var Weight: Float;
 	public var InSolution: Int;
 
-	public function new() { }
+	public function new(?value, ?weight, ?inSolution) {
+		this.Value = value;
+		this.Weight = weight;
+		this.InSolution = inSolution;
+	}
 }
