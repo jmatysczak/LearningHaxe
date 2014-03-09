@@ -30,7 +30,9 @@ class FullSearch {
 			}
 		}
 
-		solution.Best = new Valuables([], bestValue, bestWeight);
+		var ids = [];
+		for (i in 0...valuables.length) if ((bestInSolution & (1 << i)) != 0) ids.push(valuables[i].Id);
+		solution.Best = new Valuables(ids, bestValue, bestWeight);
 
 		return solution;
 	}
