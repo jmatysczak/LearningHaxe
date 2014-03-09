@@ -10,6 +10,6 @@ class Main {
 		expected.shouldEqual(expected);
 		actual.shouldEqual(expected);
 
-		Sys.println("Done!");
+		Sys.println("\n--- Test complete. No errors. ---\n");
 	}
 }
