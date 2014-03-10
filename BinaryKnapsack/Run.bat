@@ -6,8 +6,9 @@ copy test\knapsack\*.txt bin
 
 cd bin
 
-neko Knapsack.n
-rem Knapsack-CS\bin\Knapsack-CS.exe
-rem java -jar Knapsack-Java\Knapsack-Java.jar
+neko BinaryKnapsack.n
+rem BinaryKnapsack-CS\bin\BinaryKnapsack-CS.exe
+rem java -jar BinaryKnapsack-Java\BinaryKnapsack-Java.jar
+rem "c:\Program Files (x86)\Mono-2.10.9\bin\mono.exe" BinaryKnapsack-CS\bin\BinaryKnapsack-CS.exe
 
 pause
