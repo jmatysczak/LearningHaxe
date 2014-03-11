@@ -5,7 +5,7 @@ using Lambda;
 using knapsack.FullSearch;
 
 class FullSearch {
-	public static function Find(valuables: Array<Valuable>, weightLimit: Float) {
+	public static function find(valuables: Array<Valuable>, weightLimit: Float) {
 		if (valuables.length > 30) throw "FullSearch.Find does not support more than 30 Valuable items.";
 
 		var bestValue: Float = 0,
