@@ -7,14 +7,21 @@ using knapsack.BBAndDP;
 
 class BBAndDP {
 	var findByBest: Array<Valuable> -> Float -> Valuables;
-	
-	public function new(findByBest) {
+	var findByHeatMap: Array<Valuable> -> Float -> Valuables;
+
+	public function new(findByBest, findByHeatMap) {
 		this.findByBest = findByBest;
+		this.findByHeatMap = findByHeatMap;
 	}
 
 	public function find(valuables: Array<Valuable>, weightLimit: Float) {
 		var best = this.findByBest(valuables, weightLimit);
-		return new Solution(valuables, weightLimit, best);
+
+		var heatMapSlotCount = 20,
+			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount;
+		var heatMap = [for(i in 1...heatMapSlotCount + 1) this.findByHeatMap(valuables, heatMapSlotWeight * i)];
+
+		return new Solution(valuables, weightLimit, best, heatMap);
 	}
 
 	/**
