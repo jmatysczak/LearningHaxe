@@ -63,7 +63,17 @@ class BBAndDP {
 					if (j == upperBound) currentState = PerformAForwardStep;
 					if (j > upperBound) currentState = UpdateTheBestSolution;
 				case UpdateTheBestSolution:
-					1+1;
+					if (bestValue < currentValue) {
+						bestValue = currentValue;
+						for (i in 0...bestInSolution.length) bestInSolution[i] = currentInSolution[i];
+					}
+					j = upperBound;
+					if (currentInSolution[upperBound]) {
+						currentResidualWeight += sortedValuables[j].Weight;
+						currentValue -= sortedValuables[j].Value;
+						currentInSolution[upperBound] = false;
+					}
+					currentState = Backtrack;
 				case Backtrack:
 					1+1;
 			}
