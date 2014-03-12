@@ -69,13 +69,20 @@ class BBAndDP {
 					}
 					j = upperBound;
 					if (currentInSolution[upperBound]) {
-						currentResidualWeight += sortedValuables[j].Weight;
-						currentValue -= sortedValuables[j].Value;
+						currentResidualWeight += sortedValuables[upperBound].Weight;
+						currentValue -= sortedValuables[upperBound].Value;
 						currentInSolution[upperBound] = false;
 					}
 					currentState = Backtrack;
 				case Backtrack:
-					1+1;
+					var i = j - 1;
+					while (i >= 0 && !currentInSolution[i]) i--;
+					if (i == -1) break;
+					currentResidualWeight += sortedValuables[i].Weight;
+					currentValue -= sortedValuables[i].Value;
+					currentInSolution[i] = false;
+					j = i + 1;
+					currentState = ComputeUpperBoundU1;
 			}
 		}
 
