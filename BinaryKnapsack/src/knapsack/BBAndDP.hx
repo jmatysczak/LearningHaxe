@@ -31,6 +31,7 @@ class BBAndDP {
 			currentValue: Float = 0,
 			currentResidualWeight: Float = weightLimit,
 			currentInSolution = new Vector<Bool>(valuables.length),
+			upperBound = valuables.length - 1,
 			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc(),
 			currentState: HSState = ComputeUpperBoundU1;
 
@@ -48,7 +49,19 @@ class BBAndDP {
 					var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight - sortedValuables[r].Weight) * sortedValuables[r].Density;
 					currentState = bestValue >= currentValue + u ? Backtrack : PerformAForwardStep;
 				case PerformAForwardStep:
-					1+1;
+					while (sortedValuables[j].Weight <= currentResidualWeight) {
+						currentResidualWeight -= sortedValuables[j].Weight;
+						currentValue += sortedValuables[j].Value;
+						currentInSolution[j] = true;
+						j++;
+					}
+					if (j <= upperBound) {
+						currentInSolution[j] = false;
+						j++;
+					}
+					if (j < upperBound) currentState = ComputeUpperBoundU1;
+					if (j == upperBound) currentState = PerformAForwardStep;
+					if (j > upperBound) currentState = UpdateTheBestSolution;
 				case UpdateTheBestSolution:
 					1+1;
 				case Backtrack:
