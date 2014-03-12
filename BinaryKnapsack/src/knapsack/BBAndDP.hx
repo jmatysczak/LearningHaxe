@@ -1,5 +1,9 @@
 package knapsack;
 
+import haxe.ds.Vector.Vector;
+
+using knapsack.BBAndDP;
+
 class BBAndDP {
 	var findByBest: Array<Valuable> -> Float -> Valuables;
 	
@@ -12,7 +16,81 @@ class BBAndDP {
 		return new Solution(valuables, weightLimit, best);
 	}
 
+	/**
+	 * Based on:
+	 * Horowitz-Sahni
+	 * Chapter 2.5.1
+	 * "Knapsack Problems: Algorithms and Computer Implementations"
+	 * http://www.or.deis.unibo.it/knapsack.html
+	 */
 	public static function findByHorowitzSahni(valuables: Array<Valuable>, weightLimit: Float) {
-		return new Valuables([], 0, 0);
+		var j = 0,
+			bestValue: Float = 0,
+			bestWeight: Float = 0,
+			bestInSolution = new Vector<Bool>(valuables.length),
+			currentValue: Float = 0,
+			currentResidualWeight: Float = weightLimit,
+			currentInSolution = new Vector<Bool>(valuables.length),
+			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc(),
+			currentState: HSState = ComputeUpperBoundU1;
+
+		while (true) {
+			switch(currentState) {
+				case ComputeUpperBoundU1:
+					var r = j - 1,
+						jToRValue: Float = 0,
+						jToRWeight: Float = 0;
+					do {
+						r++;
+						jToRValue += sortedValuables[r].Value;
+						jToRWeight += sortedValuables[r].Weight;
+					} while (jToRWeight <= currentResidualWeight);
+					var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight - sortedValuables[r].Weight) * sortedValuables[r].Density;
+					currentState = bestValue >= currentValue + u ? Backtrack : PerformAForwardStep;
+				case PerformAForwardStep:
+					1+1;
+				case UpdateTheBestSolution:
+					1+1;
+				case Backtrack:
+					1+1;
+			}
+		}
+
+		return new Valuables(sortedValuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
 	}
+
+	static function getIdsInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
+		return [for (i in 0...valuables.length) if (inSolution[i]) valuables[i].Id];
+	}
+	static function sortByDensityDesc(valuables: Array<DenseValuable>) {
+		valuables.sort(function(dv1, dv2) {
+			var diff = dv2.Density - dv1.Density;
+			if (diff < 0) return -1;
+			if (diff > 0) return 1;
+			return 0;
+		});
+		return valuables;
+	}
+}
+
+class DenseValuable extends Valuable {
+	public var Density: Float;
+
+	public function new(valuable: Valuable) {
+		super(valuable.Id, valuable.Value, valuable.Weight);
+		this.Density = this.Value / this.Weight;
+	}
+
+	public override function toString() {
+		return '$Id; $Value; $Weight; $Density\r\n';
+	}
+
+	public static function fromValuable(valuable: Valuable) return new DenseValuable(valuable);
+}
+
+enum HSState {
+	ComputeUpperBoundU1;
+	PerformAForwardStep;
+	UpdateTheBestSolution;
+	Backtrack;
 }
