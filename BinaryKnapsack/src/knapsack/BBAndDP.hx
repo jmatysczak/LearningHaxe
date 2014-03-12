@@ -2,6 +2,7 @@ package knapsack;
 
 import haxe.ds.Vector.Vector;
 
+using Lambda;
 using knapsack.BBAndDP;
 
 class BBAndDP {
@@ -32,7 +33,7 @@ class BBAndDP {
 			currentResidualWeight: Float = weightLimit,
 			currentInSolution = new Vector<Bool>(valuables.length),
 			upperBound = valuables.length - 1,
-			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc(),
+			sortedValuables = valuables.mapi(DenseValuable.fromValuable).array().sortByDensityDesc(),
 			currentState: HSState = ComputeUpperBoundU1;
 
 		while (true) {
@@ -65,6 +66,7 @@ class BBAndDP {
 				case UpdateTheBestSolution:
 					if (bestValue < currentValue) {
 						bestValue = currentValue;
+						bestWeight = weightLimit - currentResidualWeight;
 						for (i in 0...bestInSolution.length) bestInSolution[i] = currentInSolution[i];
 					}
 					j = upperBound;
@@ -86,12 +88,9 @@ class BBAndDP {
 			}
 		}
 
-		return new Valuables(sortedValuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
+		return new Valuables(sortedValuables.setInSolution(bestInSolution).sortByIndexAsc().getIdsInSolution(), bestValue, bestWeight);
 	}
 
-	static function getIdsInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
-		return [for (i in 0...valuables.length) if (inSolution[i]) valuables[i].Id];
-	}
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {
 		valuables.sort(function(dv1, dv2) {
 			var diff = dv2.Density - dv1.Density;
@@ -101,21 +100,35 @@ class BBAndDP {
 		});
 		return valuables;
 	}
+	static function setInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
+		for (i in 0...valuables.length) valuables[i].InSolution = inSolution[i];
+		return valuables;
+	}
+	static function sortByIndexAsc(valuables: Array<DenseValuable>) {
+		valuables.sort(function(dv1, dv2) return dv1.Index - dv2.Index);
+		return valuables;
+	}
+	static function getIdsInSolution(valuables: Array<DenseValuable>) {
+		return [for (i in 0...valuables.length) if (valuables[i].InSolution) valuables[i].Id];
+	}
 }
 
 class DenseValuable extends Valuable {
+	public var Index: Int;
 	public var Density: Float;
+	public var InSolution: Bool = false;
 
-	public function new(valuable: Valuable) {
+	public function new(index: Int, valuable: Valuable) {
+		this.Index = index;
+		this.Density = valuable.Value / valuable.Weight;
 		super(valuable.Id, valuable.Value, valuable.Weight);
-		this.Density = this.Value / this.Weight;
 	}
 
 	public override function toString() {
 		return '$Id; $Value; $Weight; $Density\r\n';
 	}
 
-	public static function fromValuable(valuable: Valuable) return new DenseValuable(valuable);
+	public static function fromValuable(index: Int, valuable: Valuable) return new DenseValuable(index, valuable);
 }
 
 enum HSState {
