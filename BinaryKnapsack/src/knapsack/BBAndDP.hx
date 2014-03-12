@@ -19,7 +19,7 @@ class BBAndDP {
 
 		var heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount;
-		var heatMap = [for(i in 1...heatMapSlotCount + 1) this.findByHeatMap(valuables, heatMapSlotWeight * i)];
+		var heatMap = [for (i in 1...heatMapSlotCount + 1) this.findByHeatMap(valuables, heatMapSlotWeight * i) ];
 
 		return new Solution(valuables, weightLimit, best, heatMap);
 	}
@@ -53,11 +53,11 @@ class BBAndDP {
 						r++;
 						jToRValue += sortedValuables[r].Value;
 						jToRWeight += sortedValuables[r].Weight;
-					} while (jToRWeight <= currentResidualWeight);
-					var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight - sortedValuables[r].Weight) * sortedValuables[r].Density;
+					} while (r < upperBound && jToRWeight <= currentResidualWeight);
+					var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight + sortedValuables[r].Weight) * sortedValuables[r].Density;
 					currentState = bestValue >= currentValue + u ? Backtrack : PerformAForwardStep;
 				case PerformAForwardStep:
-					while (sortedValuables[j].Weight <= currentResidualWeight) {
+					while (j <= upperBound && sortedValuables[j].Weight <= currentResidualWeight) {
 						currentResidualWeight -= sortedValuables[j].Weight;
 						currentValue += sortedValuables[j].Value;
 						currentInSolution[j] = true;
