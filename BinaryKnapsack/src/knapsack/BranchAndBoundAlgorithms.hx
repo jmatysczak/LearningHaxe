@@ -98,7 +98,7 @@ class BranchAndBoundAlgorithms {
 		return valuables;
 	}
 	static function getIdsInSolution(valuables: Array<DenseValuable>) {
-		return [for (i in 0...valuables.length) if (valuables[i].InSolution) valuables[i].Id];
+		return [for (valuable in valuables) if (valuable.InSolution) valuable.Id];
 	}
 }
 
