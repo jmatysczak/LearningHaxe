@@ -5,14 +5,13 @@ using Lambda;
 using knapsack.FullSearch;
 
 class FullSearch {
-	public static function find(valuables: Array<Valuable>, weightLimit: Float) {
+	public static function find(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
 		if (valuables.length > 30) throw "FullSearch.Find does not support more than 30 Valuable items.";
 
 		var bestValue: Float = 0,
 			bestWeight: Float = 0,
 			bestInSolution = 0,
 			inSolution = 1 << valuables.length,
-			heatMapSlotCount = 20,
 			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
 			heatMap = [for (i in 0...heatMapSlotCount) new TempValuables()],
 			efficientFrontier = new Array<TempValuables>();
