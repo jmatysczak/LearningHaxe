@@ -1,7 +1,7 @@
 package knapsack;
 import haxe.ds.Vector.Vector;
 
-using Lambda;
+using knapsack.Valuable;
 using knapsack.FullSearch;
 
 class FullSearch {
@@ -12,7 +12,7 @@ class FullSearch {
 			bestWeight: Float = 0,
 			bestInSolution = 0,
 			inSolution = 1 << valuables.length,
-			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount,
+			heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount,
 			heatMap = [for (i in 0...heatMapSlotCount) new TempValuables()],
 			efficientFrontier = new Array<TempValuables>();
 

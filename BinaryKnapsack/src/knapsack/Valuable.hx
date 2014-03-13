@@ -1,5 +1,7 @@
 package knapsack;
 
+using Lambda;
+
 class Valuable {
 	public var Id: String;
 	public var Value: Float;
@@ -18,5 +20,9 @@ class Valuable {
 	public static function fromString(s: String) {
 		var idValueWeight = s.split("\t");
 		return new Valuable(idValueWeight[0], Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
+	}
+
+	public static function calculateTotalWeight(valuables: Iterable<Valuable>) {
+		return valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0);
 	}
 }
