@@ -131,10 +131,6 @@ class DenseValuable extends Valuable {
 		super(valuable.Id, valuable.Value, valuable.Weight);
 	}
 
-	public override function toString() {
-		return '$Id; $Value; $Weight; $Density\r\n';
-	}
-
 	public static function fromValuable(index: Int, valuable: Valuable) return new DenseValuable(index, valuable);
 }
 
