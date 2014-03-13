@@ -3,27 +3,9 @@ package knapsack;
 import haxe.ds.Vector.Vector;
 
 using Lambda;
-using knapsack.BBAndDP;
+using knapsack.BranchAndBoundAlgorithms;
 
-class BBAndDP {
-	var findByBest: Array<Valuable> -> Float -> Valuables;
-	var findByHeatMap: Array<Valuable> -> Float -> Valuables;
-
-	public function new(findByBest, findByHeatMap) {
-		this.findByBest = findByBest;
-		this.findByHeatMap = findByHeatMap;
-	}
-
-	public function find(valuables: Array<Valuable>, weightLimit: Float) {
-		var best = this.findByBest(valuables, weightLimit);
-
-		var heatMapSlotCount = 20,
-			heatMapSlotWeight = valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0) / heatMapSlotCount;
-		var heatMap = [for (i in 1...heatMapSlotCount + 1) this.findByHeatMap(valuables, heatMapSlotWeight * i) ];
-
-		return new Solution(valuables, weightLimit, best, heatMap);
-	}
-
+class BranchAndBoundAlgorithms {
 	/**
 	 * Based on:
 	 * Horowitz-Sahni

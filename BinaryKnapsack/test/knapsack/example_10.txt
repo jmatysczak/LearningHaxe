@@ -1,5 +1,5 @@
-# The number of valuables.
-10
+# The number of valuables, the number of heat map/sensitivity pattern slots
+10, 20
 # The valuables formatted: id	value	weight
 A	7.73	811140.56
 B	7.72	673199.81

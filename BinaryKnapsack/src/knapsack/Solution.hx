@@ -23,23 +23,24 @@ class Solution {
 	public function toString(): String {
 		var s = "";
 
-		if (this.Valuables != null) s += this.Valuables.length + NEWLINE() + this.Valuables.join(NEWLINE()) + NEWLINE();
+		s += (this.Valuables == null ? 0 : this.Valuables.length) + ", " + (this.HeatMap == null ? 0 : this.HeatMap.length) + NEWLINE();
+		if (this.Valuables != null) s += this.Valuables.join(NEWLINE()) + NEWLINE();
 		s += Std.string(this.WeightLimit) + NEWLINE() + this.Best + NEWLINE();
 		if (this.HeatMap != null) s += this.HeatMap.join(NEWLINE()) + NEWLINE();
-		if(this.EfficientFrontier!=null)s+=this.EfficientFrontier.join(NEWLINE());
+		if (this.EfficientFrontier!=null) s+=this.EfficientFrontier.join(NEWLINE());
 
 		return s;
 	}
 
 	public static function fromString(s: String) {
-		var OFFSET_WEIGHT_LIMIT = 1,
-			OFFSET_BEST = OFFSET_WEIGHT_LIMIT + 1,
-			OFFSET_HEAT_MAP = OFFSET_BEST + 1,
-			OFFSET_EFFICIENT_FRONTIER = OFFSET_HEAT_MAP + 20;
-
 		var solution = new Solution(),
 			linesSansComments = s.lines().notEmpty().withOutComments(),
-			numberOfValuables = Std.parseInt(linesSansComments[0]);
+			numberOfValuables = Std.parseInt(linesSansComments[0].split(",")[0]),
+			numberOfHeatMapSlots = Std.parseInt(linesSansComments[0].split(",")[1]),
+		    OFFSET_WEIGHT_LIMIT = 1,
+			OFFSET_BEST = OFFSET_WEIGHT_LIMIT + 1,
+			OFFSET_HEAT_MAP = OFFSET_BEST + 1,
+			OFFSET_EFFICIENT_FRONTIER = OFFSET_HEAT_MAP + numberOfHeatMapSlots;
 		solution.Valuables = linesSansComments.slice(1, numberOfValuables + OFFSET_WEIGHT_LIMIT).map(Valuable.fromString);
 		solution.WeightLimit = Std.parseFloat(linesSansComments[numberOfValuables + OFFSET_WEIGHT_LIMIT]);
 		solution.Best = Valuables.fromString(linesSansComments[numberOfValuables + OFFSET_BEST]);
