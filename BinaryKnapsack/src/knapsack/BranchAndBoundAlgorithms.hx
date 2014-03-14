@@ -107,7 +107,7 @@ class DenseValuable extends Valuable {
 	public var Density: Float;
 	public var InSolution: Bool = false;
 
-	public function new(index: Int, valuable: Valuable) {
+	public function new(index, valuable: Valuable) {
 		this.Index = index;
 		this.Density = valuable.Value / valuable.Weight;
 		super(valuable.Id, valuable.Value, valuable.Weight);
