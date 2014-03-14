@@ -23,7 +23,10 @@ class DynamicProgrammingAlgorithms {
 			}
 		}
 
-		return current.map(function(valuables) return new Valuables([], valuables.Value, valuables.Weight));
+		var idIndexes = new Map<String, Int>();
+		for (i in 0...valuables.length) idIndexes[valuables[i].Id] = i;
+
+		return current.map(function(valuables) return valuables.toValuables(idIndexes));
 	}
 
 	static function insertEF(current: Array<EFValuables>, i, id, ids, value, weight) {
@@ -37,7 +40,8 @@ class DynamicProgrammingAlgorithms {
 	}
 
 	static function sortByWeightAscValueDesc(valuables: Array<Valuable>) {
-		valuables.sort(function(dv1, dv2) {
+		var sortedValuables = valuables.copy();
+		sortedValuables.sort(function(dv1, dv2) {
 			var diff = dv1.Weight - dv2.Weight;
 			if (diff < 0) return -1;
 			if (diff > 0) return 1;
@@ -46,7 +50,7 @@ class DynamicProgrammingAlgorithms {
 			if (diff > 0) return 1;
 			return 0;
 		});
-		return valuables;
+		return sortedValuables;
 	}
 }
 
@@ -60,5 +64,10 @@ class EFValuables {
 		this.Weight = weight;
 		this.SolutionIds = [id];
 		if(ids != null) for (id in ids) this.SolutionIds.push(id);
+	}
+
+	public function toValuables(idIndexes: Map<String, Int>) {
+		this.SolutionIds.sort(function(id1, id2) return idIndexes[id1] - idIndexes[id2]);
+		return new Valuables(this.SolutionIds, this.Value, this.Weight);
 	}
 }
