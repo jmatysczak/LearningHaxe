@@ -33,7 +33,7 @@ class Main {
 		var start = Date.now().getTime();
 		var solution = f();
 		var finish = Date.now().getTime();
-		Sys.println('    $type executed in ${start - finish}');
+		Sys.println('    $type executed in ${finish - start}');
 		return solution;
 	}
 }
