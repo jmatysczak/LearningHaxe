@@ -4,6 +4,7 @@ import haxe.ds.Vector.Vector;
 
 using Lambda;
 using knapsack.BranchAndBoundAlgorithms;
+using knapsack.FloatTools;
 
 class BranchAndBoundAlgorithms {
 	/**
@@ -81,12 +82,7 @@ class BranchAndBoundAlgorithms {
 	}
 
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {
-		valuables.sort(function(dv1, dv2) {
-			var diff = dv2.Density - dv1.Density;
-			if (diff < 0) return -1;
-			if (diff > 0) return 1;
-			return 0;
-		});
+		valuables.sort(function(dv1, dv2) return dv2.Density.compareTo(dv1.Density));
 		return valuables;
 	}
 	static function setInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
