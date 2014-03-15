@@ -17,7 +17,6 @@ class BranchAndBoundAlgorithms {
 	public static function findByHorowitzSahni(valuables: Array<Valuable>, weightLimit: Float) {
 		var j = 0,
 			bestValue: Float = 0,
-			bestWeight: Float = 0,
 			bestInSolution = new Vector<Bool>(valuables.length),
 			currentValue: Float = 0,
 			currentResidualWeight: Float = weightLimit,
@@ -56,7 +55,6 @@ class BranchAndBoundAlgorithms {
 				case UpdateTheBestSolution:
 					if (bestValue < currentValue) {
 						bestValue = currentValue;
-						bestWeight = weightLimit - currentResidualWeight;
 						for (i in 0...bestInSolution.length) bestInSolution[i] = currentInSolution[i];
 					}
 					j = upperBound;
@@ -78,7 +76,11 @@ class BranchAndBoundAlgorithms {
 			}
 		}
 
-		return new Valuables(sortedValuables.setInSolution(bestInSolution).sortByIndexAsc().getIdsInSolution(), bestValue, bestWeight);
+		sortedValuables.setInSolution(bestInSolution);
+
+		var bestWeight = sortedValuables.fold(function(valuable, weigth) return weigth + (valuable.InSolution ? valuable.Weight : 0), 0);
+
+		return new Valuables(sortedValuables.sortByIndexAsc().getIdsInSolution(), bestValue, bestWeight);
 	}
 
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {
@@ -87,7 +89,6 @@ class BranchAndBoundAlgorithms {
 	}
 	static function setInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
 		for (i in 0...valuables.length) valuables[i].InSolution = inSolution[i];
-		return valuables;
 	}
 	static function sortByIndexAsc(valuables: Array<DenseValuable>) {
 		valuables.sort(function(dv1, dv2) return dv1.Index - dv2.Index);
