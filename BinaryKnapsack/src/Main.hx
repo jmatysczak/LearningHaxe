@@ -23,7 +23,13 @@ class Main {
 			Sys.println(problem.Descr);
 			var actualFullSearch = time("Full Search", function() return FullSearch.find(problem.Valuables, problem.WeightLimit, heatMapSlotCount)),
 				actualCustomizableSearch_HS = time("Horowitz-Sahni", function() return customizableSearch_HS.find(problem.Valuables, problem.WeightLimit, heatMapSlotCount));
-			actualFullSearch.shouldEqual(actualCustomizableSearch_HS);
+
+			try {
+				actualFullSearch.shouldEqual(actualCustomizableSearch_HS);
+			} catch (e: Dynamic) {
+				File.saveContent("error.txt", e);
+				throw e;
+			}
 		}
 
 		Sys.println("\n--- Tests completed successfully. ---\n");
