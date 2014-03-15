@@ -63,21 +63,21 @@ class Solution {
 
 		if (actual.length != expected.length)
 			errors +=
-				'The lengths are different.\n' +
+				'\nThe lengths are different.\n' +
 				'\tExpected: ${expected.length}\n' +
 				'\tActual:   ${actual.length}\n';
 
 		for (i in 0...minLength) {
 			if (actual.charCodeAt(i) != expected.charCodeAt(i)) {
 				errors +=
-					'The content is different at position $i.\n' +
+					'\nThe content is different at position $i.\n' +
 					'\tExpected: ${expected.charAt(i)}(${expected.charCodeAt(i)})\n' +
 					'\tActual:   ${actual.charAt(i)}(${actual.charCodeAt(i)})\n';
 				break;
 			}
 		}
 
-		if (errors.length > 0) throw '${message}\n${errors}Actual solution:\n$this';
+		if (errors.length > 0) throw '${message}\n$errors\nExpected solution:\n$expected\n\nActual solution:\n$this';
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
