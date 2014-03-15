@@ -54,6 +54,8 @@ class Solution {
 
 	public function shouldEqual(other: Solution) {
 		this.shouldBeEquivalentTo(other.toString(), "The Solutions are not equal.");
+		var errors = "";
+		//if (errors.length > 0) throw 'The Solutions are not equal.\n$errors\nExpected solution:\n$expected\n\nActual solution:\n$this';
 	}
 
 	function shouldBeEquivalentTo(expected: String, message: String) {
@@ -77,7 +79,7 @@ class Solution {
 			}
 		}
 
-		if (errors.length > 0) throw '${message}\n$errors\nExpected solution:\n$expected\n\nActual solution:\n$this';
+		if (errors.length > 0) throw '$message\n$errors\nExpected solution:\n$expected\n\nActual solution:\n$this';
 	}
 
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
