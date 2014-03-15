@@ -15,6 +15,6 @@ class Main {
 		actualFullSearch.shouldEqual(expected);
 		actualCustomizableSearch_HS.shouldEqual(expected);
 
-		Sys.println("\n--- Test complete. No errors. ---\n");
+		Sys.println("\n--- Tests completed successfully. ---\n");
 	}
 }
