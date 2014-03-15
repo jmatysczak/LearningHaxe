@@ -1,12 +1,13 @@
 package knapsack;
 
 using knapsack.DynamicProgrammingAlgorithms;
+using knapsack.FloatTools;
 
 class DynamicProgrammingAlgorithms {
 	public static function findEfficientFrontier(valuables: Array<Valuable>) {
 		var current = new Array<EFValuables>(),
 			previous = new Array<EFValuables>(),
-			sortedValuables = valuables.sortByWeightAscValueDesc(),
+			sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
 			firstSortedValuable = sortedValuables[0];
 
 		current.push(new EFValuables(firstSortedValuable.Id, null, firstSortedValuable.Value, firstSortedValuable.Weight));
@@ -40,17 +41,8 @@ class DynamicProgrammingAlgorithms {
 	}
 
 	static function sortByWeightAscValueDesc(valuables: Array<Valuable>) {
-		var sortedValuables = valuables.copy();
-		sortedValuables.sort(function(dv1, dv2) {
-			var diff = dv1.Weight - dv2.Weight;
-			if (diff < 0) return -1;
-			if (diff > 0) return 1;
-			diff = dv2.Value - dv1.Value;
-			if (diff < 0) return -1;
-			if (diff > 0) return 1;
-			return 0;
-		});
-		return sortedValuables;
+		valuables.sort(function(dv1, dv2) return dv1.Weight.compareTo(dv2.Weight, dv2.Value.compareTo(dv1.Value)));
+		return valuables;
 	}
 }
 
