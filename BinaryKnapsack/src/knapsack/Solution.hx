@@ -53,7 +53,7 @@ class Solution {
 	}
 
 	public function shouldEqual(other: Solution) {
-		// Can't do this because of rounding errors. Need to check value by value with a margin for error.
+		// Can't do this because of rounding errors. Need to check value by value with a tolerance.
 		//this.shouldBeEquivalentTo(other.toString(), "The Solutions are not equal.");
 		var errors = "";
 
@@ -92,9 +92,10 @@ class Solution {
 
 	static function createErrorMessage(message, expected, actual) return '$message\n\tExpected: $expected\n\tActual:   $actual\n\n';
 	static function isNotCloseTo(me: Valuables, other: Valuables) {
+		var tolerance = 0.000000001;
 		if (me.Ids.length != other.Ids.length) return true;
-		if (Math.abs(me.Value - other.Value) > 0.000000001) return true;
-		if (Math.abs(me.Weight - other.Weight) > 0.000000001) return true;
+		if (Math.abs(me.Value - other.Value) > tolerance) return true;
+		if (Math.abs(me.Weight - other.Weight) > tolerance) return true;
 		for (i in 0...me.Ids.length) if (me.Ids[i] != other.Ids[i]) return true;
 		return false;
 	}
