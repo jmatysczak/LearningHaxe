@@ -1,5 +1,6 @@
 package knapsack;
 
+using Lambda;
 using knapsack.Valuable;
 
 class CustomizableSearch {
@@ -16,8 +17,12 @@ class CustomizableSearch {
 	public function find(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
 		var best = this.findByBest(valuables, weightLimit);
 
-		var heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount;
-		var heatMap = [for (i in 1...heatMapSlotCount + 1) this.findByHeatMap(valuables, heatMapSlotWeight * i) ];
+		var allIds = [for(valuable in valuables) valuable.Id],
+			totalValue = valuables.fold(function(valuable, value) return value + valuable.Value, 0),
+			totalWeight = valuables.calculateTotalWeight(),
+			heatMapSlotWeight = totalWeight / heatMapSlotCount,
+			heatMap = [for (i in 1...heatMapSlotCount) this.findByHeatMap(valuables, heatMapSlotWeight * i) ];
+		heatMap.push(new Valuables(allIds, totalValue, totalWeight));
 
 		var efficientFrontier = this.findEfficientFrontier(valuables);
 

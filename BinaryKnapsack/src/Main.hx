@@ -25,7 +25,7 @@ class Main {
 				actualCustomizableSearch_HS = time("Horowitz-Sahni", function() return customizableSearch_HS.find(problem.Valuables, problem.WeightLimit, heatMapSlotCount));
 
 			try {
-				actualFullSearch.shouldEqual(actualCustomizableSearch_HS);
+				actualCustomizableSearch_HS.shouldEqual(actualFullSearch);
 			} catch (e: Dynamic) {
 				File.saveContent("error.txt", e);
 				throw e;
