@@ -18,12 +18,12 @@ class ProblemFactory {
 }
 
 class Problem {
-	public var Title: String;
+	public var Descr: String;
 	public var Valuables: Array<Valuable>;
 	public var WeightLimit: Float;
 
-	public function new(title, valuables) {
-		this.Title = title;
+	public function new(descr, valuables) {
+		this.Descr = descr;
 		this.Valuables = valuables;
 		this.WeightLimit = this.Valuables.calculateTotalWeight() / 2;
 	}
