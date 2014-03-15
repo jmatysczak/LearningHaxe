@@ -3,6 +3,12 @@ package knapsack;
 using knapsack.Valuable;
 
 class ProblemFactory {
+	/**
+	 * Based on:
+	 * Chapter 2.10
+	 * "Knapsack Problems: Algorithms and Computer Implementations"
+	 * http://www.or.deis.unibo.it/knapsack.html
+	 */
 	public static function createProblems(size) {
 		var start = 1,
 			range = 99,

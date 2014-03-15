@@ -53,7 +53,50 @@ class Solution {
 	}
 
 	public function shouldEqual(other: Solution) {
-		this.shouldBeEquivalentTo(other.toString(), "The Solutions are not equal.");
+		// Can't do this because of rounding errors. Need to check value by value with a margin for error.
+		//this.shouldBeEquivalentTo(other.toString(), "The Solutions are not equal.");
+		var errors = "";
+
+		if (this.Valuables.length != other.Valuables.length)
+			errors += createErrorMessage("The number of valuables are different.", Std.string(other.Valuables.length), Std.string(this.Valuables.length));
+
+		var minValuablesLength = Std.int(Math.min(this.Valuables.length, other.Valuables.length));
+		for (i in 0...minValuablesLength)
+			if (this.Valuables[i].toString() != other.Valuables[i].toString())
+				errors += createErrorMessage('The Valuables at index $i are different.', other.Valuables[i].toString(), this.Valuables[i].toString());
+
+		if(this.WeightLimit != other.WeightLimit) 
+			errors += createErrorMessage("The weight limits are different.", Std.string(other.WeightLimit), Std.string(this.WeightLimit));
+
+		if(this.Best.isNotCloseTo(other.Best))
+			errors += createErrorMessage("The best solutions are different.", other.Best.toString(), this.Best.toString());
+
+		if (this.HeatMap.length != other.HeatMap.length)
+			errors += createErrorMessage("The heat map slot counts are different.", Std.string(other.HeatMap.length), Std.string(this.HeatMap.length));
+
+		var minHeatMapLength = Std.int(Math.min(this.HeatMap.length, other.HeatMap.length));
+		for (i in 0...minHeatMapLength)
+			if (this.HeatMap[i].isNotCloseTo(other.HeatMap[i]))
+				errors += createErrorMessage('The heat map Valuables at index $i are different.', other.HeatMap[i].toString(), this.HeatMap[i].toString());
+
+		if (this.EfficientFrontier.length != other.EfficientFrontier.length)
+			errors += createErrorMessage("The efficient frontier lengths are different.", Std.string(other.EfficientFrontier.length), Std.string(this.EfficientFrontier.length));
+
+		var minEfficientFrontierLength = Std.int(Math.min(this.EfficientFrontier.length, other.EfficientFrontier.length));
+		for (i in 0...minEfficientFrontierLength)
+			if (this.EfficientFrontier[i].isNotCloseTo(other.EfficientFrontier[i]))
+				errors += createErrorMessage('The efficient frontier Valuables at index $i are different.', other.EfficientFrontier[i].toString(), this.EfficientFrontier[i].toString());
+
+		if (errors.length > 0) throw 'The Solutions are not equal.\n$errors\nExpected solution:\n$other\n\nActual solution:\n$this';
+	}
+
+	static function createErrorMessage(message, expected, actual) return '$message\n\tExpected: $expected\n\tActual:   $actual\n\n';
+	static function isNotCloseTo(me: Valuables, other: Valuables) {
+		if (me.Ids.length != other.Ids.length) return true;
+		if (Math.abs(me.Value - other.Value) > 0.000000001) return true;
+		if (Math.abs(me.Weight - other.Weight) > 0.000000001) return true;
+		for (i in 0...me.Ids.length) if (me.Ids[i] != other.Ids[i]) return true;
+		return false;
 	}
 
 	function shouldBeEquivalentTo(expected: String, message: String) {
