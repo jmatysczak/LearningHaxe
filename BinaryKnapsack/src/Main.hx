@@ -39,10 +39,10 @@ class Main {
 	}
 
 	static function time(type, f: Void -> Solution) {
-		var start = Date.now().getTime();
+		var start = Sys.time();
 		var solution = f();
-		var finish = Date.now().getTime();
-		Sys.println(SPACING + SPACING + '$type executed in ${finish - start}');
+		var finish = Sys.time();
+		Sys.println(SPACING + SPACING + '$type executed in (seconds): ${finish - start}');
 		return solution;
 	}
 
