@@ -50,7 +50,7 @@ class Main {
 		#if cs
 		return "C# (" + untyped __cs__('(System.Type.GetType("Mono.Runtime") == null ? "MS" : "Mono") + " " + System.Environment.Version.ToString()') + ")";
 		#elseif java
-		return "Java";
+		return "Java (" + untyped __java__('System.getProperty("java.version")') + ")";
 		#elseif neko
 		return "Neko";
 		#else
