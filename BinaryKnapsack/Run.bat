@@ -2,6 +2,7 @@
 rem haxe -cp src -cp test -cs $(OutputDir)\$(ProjectName)-CS -main Main -$(BuildConfig)
 rem haxe -cp src -cp test -java $(OutputDir)\$(ProjectName)-Java -main Main -$(BuildConfig)
 
+del bin\error_*
 del bin\example_*
 copy test\knapsack\example_* bin
 
