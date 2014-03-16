@@ -48,7 +48,7 @@ class Main {
 
 	static function getExecutionEnvironment() {
 		#if cs
-		return "C#";
+		return "C# (" + untyped __cs__('(System.Type.GetType("Mono.Runtime") == null ? "MS" : "Mono") + " " + System.Environment.Version.ToString()') + ")";
 		#elseif java
 		return "Java";
 		#elseif neko
