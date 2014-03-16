@@ -4,6 +4,7 @@ import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
 import knapsack.FullSearch;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
+import sys.FileSystem;
 import sys.io.File;
 
 class Main {
@@ -24,14 +25,33 @@ class Main {
 		var problems = ProblemFactory.createProblems(15);
 		for (problem in problems) {
 			Sys.println(SPACING + problem.Descr);
-			var actualFullSearch = time("Full Search", function() return FullSearch.find(problem.Valuables, problem.WeightLimit, heatMapSlotCount)),
-				actualCustomizableSearch_HS = time("Horowitz-Sahni", function() return customizableSearch_HS.find(problem.Valuables, problem.WeightLimit, heatMapSlotCount));
+			var results = [],
+				valuables = problem.Valuables,
+				weightLimit = problem.WeightLimit,
+				valuableCount = problem.Valuables.length,
+				fileNameSuffix = '_${valuableCount}_${problem.Title}.txt',
+				exampleFileName = "example" + fileNameSuffix,
+				exampleFileNameExists = FileSystem.exists(exampleFileName);
 
-			try {
-				actualCustomizableSearch_HS.shouldEqual(actualFullSearch);
-			} catch (e: Dynamic) {
-				File.saveContent('error_${problem.Valuables.length}_${problem.Title}.txt', e);
-				throw e;
+			if (exampleFileNameExists) {
+				var example = Solution.fromString(File.getContent(exampleFileName));
+				valuables = example.Valuables;
+				weightLimit = example.WeightLimit;
+				results.push(example);
+			}
+
+			if (valuableCount <= 20) results.push(time("Full Search", function() return FullSearch.find(valuables, weightLimit, heatMapSlotCount)));
+			results.push(time("Horowitz-Sahni", function() return customizableSearch_HS.find(valuables, weightLimit, heatMapSlotCount)));
+
+			if (!exampleFileNameExists) File.saveContent(exampleFileName, results[results.length - 1].toString());
+
+			for(i in 1...results.length) {
+				try {
+					results[i].shouldEqual(results[i - 1]);
+				} catch (e: Dynamic) {
+					File.saveContent("error" + fileNameSuffix, e);
+					throw e;
+				}
 			}
 		}
 
