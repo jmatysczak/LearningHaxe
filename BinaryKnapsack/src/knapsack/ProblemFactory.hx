@@ -12,11 +12,27 @@ class ProblemFactory {
 	public static function createProblems(size) {
 		var start = 1,
 			range = 99,
-			problems = new Array<Problem>();
+			problems = new Array<Problem>(),
+			correlation = 10;
 
 		problems.push(new Problem(
 			'Uncorrelated. Value and weight uniformly random in [$start, ${start + range}].',
 			[for (i in 0...size) new Valuable(Std.string(i), start + (Math.random() * range), start + (Math.random() * range))]
+		));
+
+		problems.push(new Problem(
+			'Weakly correlated. Weight uniformly random in [$start, ${start + range}], Value in [Weight - $correlation, Weight + $correlation].',
+			[
+				for (i in 0...size) {
+					var value: Float = 0,
+						weight: Float = 0;
+					do {
+						weight = start + (Math.random() * range);
+						value = weight - correlation + (Math.random() * correlation * 2);
+					} while (value < 1);
+					new Valuable(Std.string(i), value, weight);
+				}
+			]
 		));
 
 		return problems;
