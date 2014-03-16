@@ -22,9 +22,10 @@ class Main {
 		actualCustomizableSearch_HS.shouldEqual(expected);
 
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
-		var problems = ProblemFactory.createProblems(15);
+		var problems = ProblemFactory.createProblems(16);
 		for (problem in problems) {
 			Sys.println(SPACING + problem.Descr);
+
 			var results = [],
 				valuables = problem.Valuables,
 				weightLimit = problem.WeightLimit,
