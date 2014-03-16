@@ -35,6 +35,16 @@ class ProblemFactory {
 			]
 		));
 
+		problems.push(new Problem(
+			'Strongly correlated. Weight uniformly random in [$start, ${start + range}], Value = Weight + $correlation.',
+			[
+				for (i in 0...size) {
+					var weight = start + (Math.random() * range);
+					new Valuable(Std.string(i), weight + correlation, weight);
+				}
+			]
+		));
+
 		return problems;
 	}
 }
