@@ -22,9 +22,15 @@ class Main {
 		actualCustomizableSearch_HS.shouldEqual(expected);
 
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
-		var problems = ProblemFactory.createProblems(16);
+		var problems = ProblemFactory.createProblems(16),
+			lastValuableCount = -1;
 		for (problem in problems) {
-			Sys.println(SPACING + problem.Descr);
+			if (problem.Valuables.length != lastValuableCount) {
+				lastValuableCount = problem.Valuables.length;
+				Sys.println(SPACING + '$lastValuableCount Valuables');
+			}
+
+			Sys.println(SPACING + SPACING + problem.Descr);
 
 			var results = [],
 				valuables = problem.Valuables,
@@ -56,14 +62,14 @@ class Main {
 			}
 		}
 
-		Sys.println("\n" + SPACING + "--- Tests completed successfully. ---\n");
+		Sys.println("\n" + SPACING + SPACING + "--- Tests completed successfully. ---\n");
 	}
 
 	static function time(type, f: Void -> Solution) {
 		var start = Sys.time();
 		var solution = f();
 		var finish = Sys.time();
-		Sys.println(SPACING + SPACING + '$type executed in (seconds): ${finish - start}');
+		Sys.println(SPACING + SPACING + SPACING + '$type executed in (seconds): ${finish - start}');
 		return solution;
 	}
 
