@@ -22,7 +22,7 @@ class Main {
 		actualCustomizableSearch_HS.shouldEqual(expected);
 
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
-		var problems = ProblemFactory.createProblems(16),
+		var problems = ProblemFactory.createProblems([16, 30]),
 			lastValuableCount = -1;
 		for (problem in problems) {
 			if (problem.Valuables.length != lastValuableCount) {
