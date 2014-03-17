@@ -75,6 +75,17 @@ class ProblemFactory {
 					}
 				]
 			));
+/*
+			problems.push(new Problem(
+				"SubsetSum", 'Subset sum. Weights are distributed in [$lowerBound, $upperBound], Value = Weight.',
+				[
+					for (i in 0...size) {
+						var weight = lowerBound + (Math.random() * boundsRange);
+						new Valuable(Std.string(i), weight, weight);
+					}
+				]
+			));
+*/
 		}
 
 		return problems;
