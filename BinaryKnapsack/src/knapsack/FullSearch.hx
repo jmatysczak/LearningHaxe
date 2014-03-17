@@ -43,12 +43,12 @@ class FullSearch {
 			}
 
 			var efInsertIndex = -1;
-			while (++efInsertIndex < efficientFrontier.length) if (weight <= efficientFrontier[efInsertIndex].Weight) break;
+			while (++efInsertIndex < efficientFrontier.length) if (weight < efficientFrontier[efInsertIndex].Weight) break;
 			if (efInsertIndex == 0 || efficientFrontier[efInsertIndex - 1].Value < value) {
 				efficientFrontier.insert(efInsertIndex, new TempValuables(value, weight, inSolution));
-				var efDeleteStopIndex = efInsertIndex;
-				while (efDeleteStopIndex + 1 < efficientFrontier.length && efficientFrontier[efDeleteStopIndex + 1].Value < value) efDeleteStopIndex++;
-				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex + 1, efDeleteStopIndex - efInsertIndex);
+				var efDeleteStopIndex = ++efInsertIndex;
+				while (efDeleteStopIndex < efficientFrontier.length && efficientFrontier[efDeleteStopIndex].Value < value) efDeleteStopIndex++;
+				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex, efDeleteStopIndex - efInsertIndex);
 			}
 		}
 
