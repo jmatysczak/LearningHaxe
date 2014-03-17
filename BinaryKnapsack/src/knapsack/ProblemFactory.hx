@@ -75,7 +75,7 @@ class ProblemFactory {
 					}
 				]
 			));
-/*
+
 			problems.push(new Problem(
 				"SubsetSum", 'Subset sum. Weights are distributed in [$lowerBound, $upperBound], Value = Weight.',
 				[
@@ -85,7 +85,6 @@ class ProblemFactory {
 					}
 				]
 			));
-*/
 
 			// TODO: Uncorrelated instances with similar weights: weights wj are distributed in [100000, 100100] and the profits pj in [1, 1000].
 		}
