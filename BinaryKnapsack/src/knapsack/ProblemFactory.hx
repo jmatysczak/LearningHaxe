@@ -17,6 +17,7 @@ class ProblemFactory {
 			upperBound = 100,
 			correlation = upperBound / 10,
 			boundsRange = upperBound - lowerBound,
+			almostStrongCorrelation = upperBound / 500,
 			problems = new Array<Problem>();
 
 		for(size in sizes) {
@@ -56,6 +57,21 @@ class ProblemFactory {
 					for (i in 0...size) {
 						var value = lowerBound + (Math.random() * boundsRange);
 						new Valuable(Std.string(i), value, value + correlation);
+					}
+				]
+			));
+
+			problems.push(new Problem(
+				"AlmostStronglyCorrelated", 'Almost strongly correlated. Weights are distributed in [$lowerBound, $upperBound], Value in [Weight + $correlation - $almostStrongCorrelation, Weight + $correlation + $almostStrongCorrelation].',
+				[
+					for (i in 0...size) {
+						var value: Float = 0,
+							weight: Float = 0;
+						do {
+							weight = lowerBound + (Math.random() * boundsRange);
+							value = weight + correlation - almostStrongCorrelation + (Math.random() * almostStrongCorrelation * 2);
+						} while (value < 1);
+						new Valuable(Std.string(i), value, weight);
 					}
 				]
 			));
