@@ -11,17 +11,23 @@ class Main {
 	static var SPACING = "    ";
 
 	static function main() {
+		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
+
 		var expected = Solution.fromString(File.getContent("example_10.txt")),
 			heatMapSlotCount = expected.HeatMap.length,
-			actualFullSearch = FullSearch.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount),
-			customizableSearch_HS = new CustomizableSearch(findByHorowitzSahni, findByHorowitzSahni, findEfficientFrontier),
-			actualCustomizableSearch_HS = customizableSearch_HS.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount);
+			customizableSearch_HS = new CustomizableSearch(findByHorowitzSahni, findByHorowitzSahni, findEfficientFrontier);
+
+		Sys.println(SPACING + '${expected.Valuables.length} Valuables');
+		Sys.println(SPACING + SPACING + 'example_10.txt');
+		var actualFullSearch = time("Full Search", function() return FullSearch.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount)),
+			actualCustomizableSearch_HS = time("Horowitz-Sahni", function() return customizableSearch_HS.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount));
 
 		expected.shouldEqual(expected);
 		actualFullSearch.shouldEqual(expected);
 		actualCustomizableSearch_HS.shouldEqual(expected);
 
-		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
+		Sys.println("\n" + SPACING + SPACING + "--- Tests completed successfully. ---\n");
+
 		var problems = ProblemFactory.createProblems([16, 30]),
 			lastValuableCount = -1;
 		for (problem in problems) {
