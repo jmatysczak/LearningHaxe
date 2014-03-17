@@ -86,6 +86,8 @@ class ProblemFactory {
 				]
 			));
 */
+
+			// TODO: Uncorrelated instances with similar weights: weights wj are distributed in [100000, 100100] and the profits pj in [1, 1000].
 		}
 
 		return problems;
