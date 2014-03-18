@@ -5,12 +5,12 @@ using knapsack.Valuable;
 class ProblemFactory {
 	/**
 	 * Based on:
+	 * Where are the hard knapsack problems?
+	 * David Pisinger
+	 * AND
 	 * Chapter 2.10
 	 * "Knapsack Problems: Algorithms and Computer Implementations"
 	 * http://www.or.deis.unibo.it/knapsack.html
-	 * AND
-	 * Where are the hard knapsack problems?
-	 * David Pisinger
 	 */
 	public static function createProblems(sizes: Array<Int>) {
 		var lowerBound = 1,
