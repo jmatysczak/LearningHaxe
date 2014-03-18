@@ -13,22 +13,14 @@ class Main {
 	static function main() {
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
 
-		var expected = Solution.fromString(File.getContent("example_10.txt")),
-			heatMapSlotCount = expected.HeatMap.length,
+		var example10 = Solution.fromString(File.getContent("example_10.txt")),
+			heatMapSlotCount = example10.HeatMap.length,
+			example10Problem = new Problem("", "Uncorrelated.", example10.Valuables, example10.WeightLimit, example10),
 			customizableSearch_HS = new CustomizableSearch(findByHorowitzSahni, findByHorowitzSahni, findEfficientFrontier);
 
-		Sys.println(SPACING + '${expected.Valuables.length} Valuables');
-		Sys.println(SPACING + SPACING + 'example_10.txt');
-		var actualFullSearch = time("Full Search", function() return FullSearch.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount)),
-			actualCustomizableSearch_HS = time("Horowitz-Sahni", function() return customizableSearch_HS.find(expected.Valuables, expected.WeightLimit, heatMapSlotCount));
+		example10.shouldEqual(example10);
 
-		expected.shouldEqual(expected);
-		actualFullSearch.shouldEqual(expected);
-		actualCustomizableSearch_HS.shouldEqual(expected);
-
-		Sys.println("\n" + SPACING + SPACING + "--- Tests completed successfully. ---\n");
-
-		var problems = ProblemFactory.createProblems([16, 30]),
+		var problems = [example10Problem].concat(ProblemFactory.createProblems([16, 30])),
 			lastValuableCount = -1;
 		for (problem in problems) {
 			if (problem.Valuables.length != lastValuableCount) {
@@ -53,6 +45,7 @@ class Main {
 				results.push(example);
 			}
 
+			if (problem.Solution != null) results.push(problem.Solution);
 			if (valuableCount <= 20) results.push(time("Full Search", function() return FullSearch.find(valuables, weightLimit, heatMapSlotCount)));
 			results.push(time("Horowitz-Sahni", function() return customizableSearch_HS.find(valuables, weightLimit, heatMapSlotCount)));
 
