@@ -15,12 +15,12 @@ class DynamicProgrammingSolver {
 
 		var heatMap = [],
 			heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount,
-			currentHeatMapSlotWeight = 0.0,
+			currentHeatMapMaxWeight = 0.0,
 			efficientFrontierIndex = 0;
 		for (i in 1...heatMapSlotCount) {
-			currentHeatMapSlotWeight += heatMapSlotWeight;
+			currentHeatMapMaxWeight += heatMapSlotWeight;
 			while (efficientFrontierIndex < efficientFrontier.length) {
-				if (efficientFrontier[efficientFrontierIndex].Weight > currentHeatMapSlotWeight) {
+				if (efficientFrontier[efficientFrontierIndex].Weight > currentHeatMapMaxWeight) {
 					heatMap.push(efficientFrontier[efficientFrontierIndex - 1]);
 					break;
 				}
