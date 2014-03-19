@@ -11,7 +11,12 @@ class DynamicProgrammingSolver {
 		var efficientFrontier = DynamicProgrammingAlgorithms.findEfficientFrontier(valuables);
 
 		var best = null;
-		for (valuables in efficientFrontier) if (valuables.Weight <= weightLimit) best = valuables;
+		for (i in 0...efficientFrontier.length) {
+			if (efficientFrontier[i].Weight > weightLimit) {
+				best = efficientFrontier[i - 1];
+				break;
+			}
+		}
 
 		var heatMap = [],
 			heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount,
