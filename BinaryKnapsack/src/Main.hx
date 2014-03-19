@@ -1,6 +1,7 @@
 import knapsack.CustomizableSearch;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
+import knapsack.DynamicProgrammingSolver;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
@@ -17,6 +18,7 @@ class Main {
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			fullSearchSolver = new FullSearchSolver(),
+			dynamicProgrammingSolver = new DynamicProgrammingSolver(),
 			customizableSearch_HS = new CustomizableSearch(findByHorowitzSahni, findByHorowitzSahni, findEfficientFrontier);
 
 		example.shouldEqual(example);
@@ -48,6 +50,7 @@ class Main {
 
 			if (valuableCount <= fullSearchSolver.ValuableCountLimit) results.push(time("Full Search", function() return fullSearchSolver.solve(valuables, weightLimit, heatMapSlotCount)));
 			results.push(time("Horowitz-Sahni", function() return customizableSearch_HS.find(valuables, weightLimit, heatMapSlotCount)));
+			results.push(time("Dynamic Programming", function() return dynamicProgrammingSolver.solve(valuables, weightLimit, heatMapSlotCount)));
 
 			if (!exampleFileNameExists) File.saveContent(exampleFileName, results[results.length - 1].toString());
 
