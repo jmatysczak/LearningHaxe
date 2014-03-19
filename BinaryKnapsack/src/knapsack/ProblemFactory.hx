@@ -96,15 +96,13 @@ class ProblemFactory {
 class Problem {
 	public var Title: String;
 	public var Descr: String;
-	public var Solution: Solution;
 	public var Valuables: Array<Valuable>;
 	public var WeightLimit: Float;
 
-	public function new(title, descr, valuables, ?weightLimit, ?solution) {
+	public function new(title, descr, valuables) {
 		this.Title = title;
 		this.Descr = descr;
-		this.Solution = solution;
 		this.Valuables = valuables;
-		this.WeightLimit = weightLimit == null ? this.Valuables.calculateTotalWeight() / 2 : weightLimit;
+		this.WeightLimit = this.Valuables.calculateTotalWeight() / 2;
 	}
 }
