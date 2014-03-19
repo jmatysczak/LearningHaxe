@@ -41,9 +41,8 @@
   <!-- Executed before build -->
   <preBuildCommand />
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False">haxe -cp src -cs $(OutputDir)\$(ProjectName)-CS -main Main -$(BuildConfig)
-haxe -cp src -java $(OutputDir)\$(ProjectName)-Java -main Main -$(BuildConfig)
-</postBuildCommand>
+  <postBuildCommand alwaysRun="False">haxe -cp src -cs $(OutputDir)\$(ProjectName)-CS -main Main
+haxe -cp src -java $(OutputDir)\$(ProjectName)-Java -main Main</postBuildCommand>
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
