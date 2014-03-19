@@ -2,11 +2,15 @@ package knapsack;
 import haxe.ds.Vector.Vector;
 
 using knapsack.Valuable;
-using knapsack.FullSearch;
+using knapsack.FullSearchSolver;
 
-class FullSearch {
-	public static function find(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
-		if (valuables.length > 30) throw "FullSearch.Find does not support more than 30 Valuable items.";
+class FullSearchSolver {
+	public var ValuableCountLimit = 20;
+
+	public function new() { }
+
+	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
+		if (valuables.length > this.ValuableCountLimit) throw 'FullSearchSolver does not support more than $ValuableCountLimit Valuable items.';
 
 		var bestValue: Float = 0,
 			bestWeight: Float = 0,
