@@ -18,7 +18,7 @@ class FullSearchSolver implements Solver {
 			bestInSolution = 0,
 			inSolution = 1 << valuables.length,
 			heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount,
-			heatMap = [for (i in 0...heatMapSlotCount) new TempValuables()],
+			heatMap = Vector.fromArrayCopy([for (i in 0...heatMapSlotCount) new TempValuables()]),
 			efficientFrontier = new Array<TempValuables>();
 
 		while(--inSolution > 0) {
@@ -58,8 +58,8 @@ class FullSearchSolver implements Solver {
 		}
 
 		var best = new Valuables(valuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
-		var heatMapValuables = heatMap.toValuables(valuables);
-		var efficientFrontierValuables = efficientFrontier.toValuables(valuables);
+		var heatMapValuables = heatMap.toValuablesV(valuables);
+		var efficientFrontierValuables = efficientFrontier.toValuablesA(valuables);
 		return new Solution(valuables, weightLimit, best, heatMapValuables, efficientFrontierValuables);
 	}
 
@@ -71,8 +71,12 @@ class FullSearchSolver implements Solver {
 		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
 
-	static function toValuables(heatMapItems: Array<TempValuables>, valuables: Array<Valuable>) {
-		return heatMapItems.map(function(heatMapItem) return new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight));
+	static function toValuablesA(heatMapItems: Array<TempValuables>, valuables: Array<Valuable>) {
+		return [for(heatMapItem in heatMapItems) new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight)];
+	}
+
+	static function toValuablesV(heatMapItems: Vector<TempValuables>, valuables: Array<Valuable>) {
+		return [for(heatMapItem in heatMapItems) new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight)];
 	}
 }
 
