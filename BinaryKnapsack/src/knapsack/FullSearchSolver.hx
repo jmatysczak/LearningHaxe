@@ -4,7 +4,8 @@ import haxe.ds.Vector.Vector;
 using knapsack.Valuable;
 using knapsack.FullSearchSolver;
 
-class FullSearchSolver {
+class FullSearchSolver implements Solver {
+	public var Title = "Full Search";
 	public var ValuableCountLimit = 20;
 
 	public function new() { }

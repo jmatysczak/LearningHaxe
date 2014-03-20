@@ -1,4 +1,4 @@
-import knapsack.CustomizableSearch;
+import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
 import knapsack.DynamicProgrammingSolver;
@@ -18,8 +18,7 @@ class Main {
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			fullSearchSolver = new FullSearchSolver(),
-			dynamicProgrammingSolver = new DynamicProgrammingSolver(),
-			customizableSearch_HS = new CustomizableSearch(findByHorowitzSahni, findByHorowitzSahni, findEfficientFrontier);
+			solvers = [new DynamicProgrammingSolver(), new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni), new FullSearchSolver()];
 
 		example.shouldEqual(example);
 
@@ -48,15 +47,15 @@ class Main {
 				results.push(example);
 			}
 
-			if (valuableCount <= fullSearchSolver.ValuableCountLimit) results.push(time("Full Search", function() return fullSearchSolver.solve(valuables, weightLimit, heatMapSlotCount)));
-			results.push(time("Horowitz-Sahni", function() return customizableSearch_HS.find(valuables, weightLimit, heatMapSlotCount)));
-			results.push(time("Dynamic Programming", function() return dynamicProgrammingSolver.solve(valuables, weightLimit, heatMapSlotCount)));
+			for (solver in solvers)
+				if (valuableCount <= solver.ValuableCountLimit)
+					results.push(time(solver, valuables, weightLimit, heatMapSlotCount));
 
-			if (!exampleFileNameExists) File.saveContent(exampleFileName, results[results.length - 1].toString());
+			if (!exampleFileNameExists) File.saveContent(exampleFileName, results[0].toString());
 
 			for(i in 1...results.length) {
 				try {
-					results[i].shouldEqual(results[i - 1]);
+					results[i].shouldEqual(results[0]);
 				} catch (e: Dynamic) {
 					File.saveContent("error" + fileNameSuffix, e);
 					throw e;
@@ -67,11 +66,11 @@ class Main {
 		Sys.println("\n" + SPACING + SPACING + "--- Tests completed successfully. ---\n");
 	}
 
-	static function time(type, f: Void -> Solution) {
+	static function time(solver, valuables, weightLimit, heatMapSlotCount) {
 		var start = Sys.time();
-		var solution = f();
+		var solution = solver.solve(valuables, weightLimit, heatMapSlotCount);
 		var finish = Sys.time();
-		Sys.println(SPACING + SPACING + SPACING + '$type executed in (seconds): ${finish - start}');
+		Sys.println(SPACING + SPACING + SPACING + '${solver.Title} executed in (seconds): ${finish - start}');
 		return solution;
 	}
 

@@ -1,0 +1,29 @@
+package knapsack;
+
+using Lambda;
+using knapsack.Valuable;
+
+class BranchAndBoundSolver implements Solver {
+	public var Title: String;
+	public var ValuableCountLimit = 500;
+	var solverImpl: Array<Valuable> -> Float -> Valuables;
+
+	public function new(title, solverImpl) {
+		this.Title = title;
+		this.solverImpl = solverImpl;
+	}
+
+	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
+		var best = this.solverImpl(valuables, weightLimit);
+
+		var allIds = [for(valuable in valuables) valuable.Id],
+			totalValue = valuables.fold(function(valuable, value) return value + valuable.Value, 0),
+			totalWeight = valuables.calculateTotalWeight(),
+			heatMapSlotWeight = totalWeight / heatMapSlotCount,
+			heatMap = [for (i in 1...heatMapSlotCount) this.solverImpl(valuables, heatMapSlotWeight * i) ];
+		heatMap.push(new Valuables(allIds, totalValue, totalWeight));
+
+		return new Solution(valuables, weightLimit, best, heatMap);
+	}
+
+}

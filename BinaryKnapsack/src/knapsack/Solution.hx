@@ -79,13 +79,15 @@ class Solution {
 			if (this.HeatMap[i].isNotCloseTo(other.HeatMap[i]))
 				errors += createErrorMessage('The heat map Valuables at index $i are different.', other.HeatMap[i].toString(), this.HeatMap[i].toString());
 
-		if (this.EfficientFrontier.length != other.EfficientFrontier.length)
-			errors += createErrorMessage("The efficient frontier lengths are different.", Std.string(other.EfficientFrontier.length), Std.string(this.EfficientFrontier.length));
+		if(this.EfficientFrontier != null) {
+			if (this.EfficientFrontier.length != other.EfficientFrontier.length)
+				errors += createErrorMessage("The efficient frontier lengths are different.", Std.string(other.EfficientFrontier.length), Std.string(this.EfficientFrontier.length));
 
-		var minEfficientFrontierLength = Std.int(Math.min(this.EfficientFrontier.length, other.EfficientFrontier.length));
-		for (i in 0...minEfficientFrontierLength)
-			if (this.EfficientFrontier[i].isNotCloseTo(other.EfficientFrontier[i]))
-				errors += createErrorMessage('The efficient frontier Valuables at index $i are different.', other.EfficientFrontier[i].toString(), this.EfficientFrontier[i].toString());
+			var minEfficientFrontierLength = Std.int(Math.min(this.EfficientFrontier.length, other.EfficientFrontier.length));
+			for (i in 0...minEfficientFrontierLength)
+				if (this.EfficientFrontier[i].isNotCloseTo(other.EfficientFrontier[i]))
+					errors += createErrorMessage('The efficient frontier Valuables at index $i are different.', other.EfficientFrontier[i].toString(), this.EfficientFrontier[i].toString());
+		}
 
 		if (errors.length > 0) throw 'The Solutions are not equal.\n$errors\nExpected solution:\n$other\n\nActual solution:\n$this';
 	}

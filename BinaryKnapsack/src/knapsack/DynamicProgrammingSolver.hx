@@ -2,7 +2,8 @@ package knapsack;
 
 using knapsack.Valuable;
 
-class DynamicProgrammingSolver {
+class DynamicProgrammingSolver implements Solver {
+	public var Title = "Dynamic Programming";
 	public var ValuableCountLimit = 500;
 
 	public function new() { }
