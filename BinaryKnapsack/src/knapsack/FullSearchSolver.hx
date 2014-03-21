@@ -20,7 +20,6 @@ class FullSearchSolver implements Solver {
 			totalWeight = valuables.calculateTotalWeight(),
 			heatMapSlotWeight = totalWeight / heatMapSlotCount,
 			heatMap = Vector.fromArrayCopy([for (i in 0...heatMapSlotCount) new TempValuables()]),
-			//efficientFrontier = new Array<TempValuables>(),
 			efficientFrontier = new EFValuables(0, 0, 0, new EFValuables(valuables.calculateTotalValue(), totalWeight, inSolution - 1));
 
 		while(--inSolution > 0) {
@@ -49,16 +48,6 @@ class FullSearchSolver implements Solver {
 				heatMapItem.InSolution = inSolution;
 			}
 
-			/*
-			var efInsertIndex = -1;
-			while (++efInsertIndex < efficientFrontier.length) if (weight < efficientFrontier[efInsertIndex].Weight) break;
-			if (efInsertIndex == 0 || efficientFrontier[efInsertIndex - 1].Value < value) {
-				efficientFrontier.insert(efInsertIndex, new TempValuables(value, weight, inSolution));
-				var efDeleteStopIndex = ++efInsertIndex;
-				while (efDeleteStopIndex < efficientFrontier.length && efficientFrontier[efDeleteStopIndex].Value < value) efDeleteStopIndex++;
-				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex, efDeleteStopIndex - efInsertIndex);
-			}
-			*/
 			var efCurrent = efficientFrontier;
 			while (efCurrent.Next.Weight < weight) efCurrent = efCurrent.Next;
 			if (efCurrent.Value < value) {
