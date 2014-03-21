@@ -46,7 +46,7 @@ class DynamicProgrammingAlgorithms {
 	}
 }
 
-class EFValuables {
+private class EFValuables {
 	public var Value: Float;
 	public var Weight: Float;
 	public var SolutionIds: Array<String>;

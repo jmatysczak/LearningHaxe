@@ -22,6 +22,14 @@ class Valuable {
 		return new Valuable(idValueWeight[0], Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
 	}
 
+	public static function allIds(valuables: Iterable<Valuable>) {
+		return [for(valuable in valuables) valuable.Id];
+	}
+
+	public static function calculateTotalValue(valuables: Iterable<Valuable>) {
+		return valuables.fold(function(valuable, value) return valuable.Value + value, 0);
+	}
+
 	public static function calculateTotalWeight(valuables: Iterable<Valuable>) {
 		return valuables.fold(function(valuable, weight) return valuable.Weight + weight, 0);
 	}

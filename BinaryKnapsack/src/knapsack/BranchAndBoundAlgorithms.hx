@@ -99,7 +99,7 @@ class BranchAndBoundAlgorithms {
 	}
 }
 
-class DenseValuable extends Valuable {
+private class DenseValuable extends Valuable {
 	public var Index: Int;
 	public var Density: Float;
 	public var InSolution: Bool = false;
@@ -113,7 +113,7 @@ class DenseValuable extends Valuable {
 	public static function fromValuable(index: Int, valuable: Valuable) return new DenseValuable(index, valuable);
 }
 
-enum HSState {
+private enum HSState {
 	ComputeUpperBoundU1;
 	PerformAForwardStep;
 	UpdateTheBestSolution;

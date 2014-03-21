@@ -17,9 +17,11 @@ class FullSearchSolver implements Solver {
 			bestWeight: Float = 0,
 			bestInSolution = 0,
 			inSolution = 1 << valuables.length,
-			heatMapSlotWeight = valuables.calculateTotalWeight() / heatMapSlotCount,
+			totalWeight = valuables.calculateTotalWeight(),
+			heatMapSlotWeight = totalWeight / heatMapSlotCount,
 			heatMap = Vector.fromArrayCopy([for (i in 0...heatMapSlotCount) new TempValuables()]),
-			efficientFrontier = new Array<TempValuables>();
+			//efficientFrontier = new Array<TempValuables>(),
+			efficientFrontier = new EFValuables(0, 0, 0, new EFValuables(valuables.calculateTotalValue(), totalWeight, inSolution - 1));
 
 		while(--inSolution > 0) {
 			var value: Float = 0,
@@ -47,6 +49,7 @@ class FullSearchSolver implements Solver {
 				heatMapItem.InSolution = inSolution;
 			}
 
+			/*
 			var efInsertIndex = -1;
 			while (++efInsertIndex < efficientFrontier.length) if (weight < efficientFrontier[efInsertIndex].Weight) break;
 			if (efInsertIndex == 0 || efficientFrontier[efInsertIndex - 1].Value < value) {
@@ -55,11 +58,21 @@ class FullSearchSolver implements Solver {
 				while (efDeleteStopIndex < efficientFrontier.length && efficientFrontier[efDeleteStopIndex].Value < value) efDeleteStopIndex++;
 				if (efInsertIndex < efDeleteStopIndex) efficientFrontier.splice(efInsertIndex, efDeleteStopIndex - efInsertIndex);
 			}
+			*/
+			var efCurrent = efficientFrontier;
+			while (efCurrent.Next.Weight < weight) efCurrent = efCurrent.Next;
+			if (efCurrent.Value < value) {
+				var efNext = efCurrent.Next;
+				if (efNext.Value < value || weight < efNext.Weight) {
+					while (efNext.Value < value) efNext = efNext.Next;
+					efCurrent.Next = new EFValuables(value, weight, inSolution, efNext);
+				}
+			}
 		}
 
 		var best = new Valuables(valuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
-		var heatMapValuables = heatMap.toValuablesV(valuables);
-		var efficientFrontierValuables = efficientFrontier.toValuablesA(valuables);
+		var heatMapValuables = heatMap.toValuables(valuables);
+		var efficientFrontierValuables = efficientFrontier.toValuables(valuables);
 		return new Solution(valuables, weightLimit, best, heatMapValuables, efficientFrontierValuables);
 	}
 
@@ -67,20 +80,16 @@ class FullSearchSolver implements Solver {
 		return (n & (1 << i)) != 0;
 	}
 
-	static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
+	public static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
 		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
 
-	static function toValuablesA(heatMapItems: Array<TempValuables>, valuables: Array<Valuable>) {
-		return [for(heatMapItem in heatMapItems) new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight)];
-	}
-
-	static function toValuablesV(heatMapItems: Vector<TempValuables>, valuables: Array<Valuable>) {
+	static function toValuables(heatMapItems: Vector<TempValuables>, valuables: Array<Valuable>) {
 		return [for(heatMapItem in heatMapItems) new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight)];
 	}
 }
 
-class TempValuables {
+private class TempValuables {
 	public var Value: Float = 0;
 	public var Weight: Float;
 	public var InSolution: Int;
@@ -89,5 +98,19 @@ class TempValuables {
 		this.Value = value;
 		this.Weight = weight;
 		this.InSolution = inSolution;
+	}
+}
+
+private class EFValuables extends TempValuables {
+	public var Next: EFValuables;
+
+	public function new(value, weight, inSolution, ?next) {
+		this.Next = next;
+		super(value, weight, inSolution);
+	}
+
+	public function toValuables(valuables: Array<Valuable>) {
+		var ef = this;
+		return [while((ef = ef.Next) != null) new Valuables(valuables.getIdsInSolution(ef.InSolution), ef.Value, ef.Weight)];
 	}
 }
