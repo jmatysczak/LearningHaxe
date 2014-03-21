@@ -19,7 +19,7 @@ class FullSearchSolver implements Solver {
 			inSolution = 1 << valuables.length,
 			totalWeight = valuables.calculateTotalWeight(),
 			heatMapSlotWeight = totalWeight / heatMapSlotCount,
-			heatMap = Vector.fromArrayCopy([for (i in 0...heatMapSlotCount) new TempValuables()]),
+			heatMap = Vector.fromArrayCopy([for (i in 0...heatMapSlotCount) new HMValuables()]),
 			efficientFrontier = new EFValuables(0, 0, 0, new EFValuables(valuables.calculateTotalValue(), totalWeight, inSolution - 1));
 
 		while(--inSolution > 0) {
@@ -73,29 +73,28 @@ class FullSearchSolver implements Solver {
 		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
 	}
 
-	static function toValuables(heatMapItems: Vector<TempValuables>, valuables: Array<Valuable>) {
+	static function toValuables(heatMapItems: Vector<HMValuables>, valuables: Array<Valuable>) {
 		return [for(heatMapItem in heatMapItems) new Valuables(valuables.getIdsInSolution(heatMapItem.InSolution), heatMapItem.Value, heatMapItem.Weight)];
 	}
 }
 
-private class TempValuables {
+private class HMValuables {
 	public var Value: Float = 0;
 	public var Weight: Float;
 	public var InSolution: Int;
 
-	public function new(?value, ?weight, ?inSolution) {
-		this.Value = value;
-		this.Weight = weight;
-		this.InSolution = inSolution;
-	}
+	public function new() { }
 }
 
-private class EFValuables extends TempValuables {
+private class EFValuables extends HMValuables {
 	public var Next: EFValuables;
 
 	public function new(value, weight, inSolution, ?next) {
+		super();
 		this.Next = next;
-		super(value, weight, inSolution);
+		this.Value = value;
+		this.Weight = weight;
+		this.InSolution = inSolution;
 	}
 
 	public function toValuables(valuables: Array<Valuable>) {
