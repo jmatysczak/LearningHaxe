@@ -1,6 +1,5 @@
 import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
-import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
 import knapsack.DynamicProgrammingSolver;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
@@ -17,7 +16,6 @@ class Main {
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
-			fullSearchSolver = new FullSearchSolver(),
 			solvers = [new DynamicProgrammingSolver(), new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni), new FullSearchSolver()];
 
 		example.shouldEqual(example);
