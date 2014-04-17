@@ -6,7 +6,7 @@ using knapsack.FullSearchSolver;
 
 class FullSearchSolver implements Solver {
 	public var Title = "Full Search";
-	public var ValuableCountLimit = 20;
+	public var ValuableCountLimit = 19;
 
 	public function new() { }
 
