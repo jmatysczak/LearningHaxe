@@ -5,11 +5,14 @@ using knapsack.Valuable;
 class DynamicProgrammingSolver implements Solver {
 	public var Title = "Dynamic Programming";
 	public var ValuableCountLimit = 500;
+	var findEfficientFrontier: Array<Valuable> -> Array<Valuables>;
 
-	public function new() { }
+	public function new(findEfficientFrontier) {
+		this.findEfficientFrontier = findEfficientFrontier;
+	}
 
 	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
-		var efficientFrontier = DynamicProgrammingAlgorithms.findEfficientFrontier(valuables);
+		var efficientFrontier = this.findEfficientFrontier(valuables);
 
 		var best = null;
 		for (i in 0...efficientFrontier.length) {

@@ -4,7 +4,7 @@ using knapsack.DynamicProgrammingAlgorithms;
 using knapsack.FloatTools;
 
 class DynamicProgrammingAlgorithms {
-	public static function findEfficientFrontier(valuables: Array<Valuable>) {
+	public static function findEfficientFrontierArray(valuables: Array<Valuable>) {
 		var current = new Array<EFValuables>(),
 			previous = new Array<EFValuables>(),
 			sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
