@@ -7,7 +7,8 @@ class DynamicProgrammingSolver implements Solver {
 	public var ValuableCountLimit = 500;
 	var findEfficientFrontier: Array<Valuable> -> Array<Valuables>;
 
-	public function new(findEfficientFrontier) {
+	public function new(title, findEfficientFrontier) {
+		this.Title += " (" + title + ")";
 		this.findEfficientFrontier = findEfficientFrontier;
 	}
 

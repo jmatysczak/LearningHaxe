@@ -17,7 +17,7 @@ class Main {
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
-			solvers = [new DynamicProgrammingSolver(findEfficientFrontierArray), new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni), new FullSearchSolver()];
+			solvers = [new DynamicProgrammingSolver("Array", findEfficientFrontierArray), new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni), new FullSearchSolver()];
 
 		example.shouldEqual(example);
 
