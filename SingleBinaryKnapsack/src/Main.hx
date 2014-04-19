@@ -2,6 +2,7 @@ import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingSolver;
 import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierArray;
+import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedList;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
@@ -17,7 +18,12 @@ class Main {
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
-			solvers = [new DynamicProgrammingSolver("Array", findEfficientFrontierArray), new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni), new FullSearchSolver()];
+			solvers = [
+				new DynamicProgrammingSolver("Array", findEfficientFrontierArray),
+				new DynamicProgrammingSolver("LinkedList", findEfficientFrontierLinkedList),
+				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
+				new FullSearchSolver()
+			];
 
 		example.shouldEqual(example);
 
