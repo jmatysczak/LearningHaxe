@@ -62,6 +62,7 @@ class Main {
 				try {
 					results[i].shouldEqual(results[0]);
 				} catch (e: Dynamic) {
+					Sys.println('"${results[i].SolverId}" does not equal the expected value.');
 					File.saveContent("error" + fileNameSuffix, e);
 					throw e;
 				}

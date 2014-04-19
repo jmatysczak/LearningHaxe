@@ -21,7 +21,7 @@ class BranchAndBoundSolver implements Solver {
 			heatMap = [for (i in 1...heatMapSlotCount) this.solverImpl(valuables, heatMapSlotWeight * i) ];
 		heatMap.push(new Valuables(valuables.allIds(), valuables.calculateTotalValue(), totalWeight));
 
-		return new Solution(valuables, weightLimit, best, heatMap);
+		return new Solution(this.Title, valuables, weightLimit, best, heatMap);
 	}
 
 }

@@ -33,6 +33,6 @@ class DynamicProgrammingSolver implements Solver {
 		}
 		heatMap.push(efficientFrontier[efficientFrontier.length - 1]);
 
-		return new Solution(valuables, weightLimit, best, heatMap, efficientFrontier);
+		return new Solution(this.Title, valuables, weightLimit, best, heatMap, efficientFrontier);
 	}
 }

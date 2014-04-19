@@ -6,13 +6,15 @@ using knapsack.Solution;
 class Solution {
 	macro static function NEWLINE() return macro "\n";
 
+	public var SolverId: String;
 	public var Valuables: Array<Valuable>;
 	public var WeightLimit: Float;
 	public var Best: Valuables;
 	public var HeatMap: Array<Valuables>;
 	public var EfficientFrontier: Array<Valuables>;
 
-	public function new(?valuables, ?weightLimit, ?best, ?heatMap, ?efficientFrontier) {
+	public function new(solverId, ?valuables, ?weightLimit, ?best, ?heatMap, ?efficientFrontier) {
+		this.SolverId = solverId;
 		this.Valuables = valuables;
 		this.WeightLimit = weightLimit;
 		this.Best = best;
@@ -33,7 +35,7 @@ class Solution {
 	}
 
 	public static function fromString(s: String) {
-		var solution = new Solution(),
+		var solution = new Solution("From String"),
 			linesSansComments = s.lines().notEmpty().withOutComments(),
 			numberOfValuables = Std.parseInt(linesSansComments[0].split(",")[0]),
 			numberOfHeatMapSlots = Std.parseInt(linesSansComments[0].split(",")[1]),

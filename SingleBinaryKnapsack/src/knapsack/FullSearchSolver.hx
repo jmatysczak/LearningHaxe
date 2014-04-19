@@ -62,7 +62,7 @@ class FullSearchSolver implements Solver {
 		var best = new Valuables(valuables.getIdsInSolution(bestInSolution), bestValue, bestWeight);
 		var heatMapValuables = heatMap.toValuables(valuables);
 		var efficientFrontierValuables = efficientFrontier.toValuables(valuables);
-		return new Solution(valuables, weightLimit, best, heatMapValuables, efficientFrontierValuables);
+		return new Solution(this.Title, valuables, weightLimit, best, heatMapValuables, efficientFrontierValuables);
 	}
 
 	inline static function hasBitSet(n:Int, i: Int) {
