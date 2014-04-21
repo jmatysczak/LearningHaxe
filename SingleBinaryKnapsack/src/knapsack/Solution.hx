@@ -1,6 +1,7 @@
 package knapsack;
 
 using StringTools;
+using knapsack.ArrayTools;
 using knapsack.Solution;
 
 class Solution {
@@ -43,7 +44,7 @@ class Solution {
 			OFFSET_BEST = OFFSET_WEIGHT_LIMIT + 1,
 			OFFSET_HEAT_MAP = OFFSET_BEST + 1,
 			OFFSET_EFFICIENT_FRONTIER = OFFSET_HEAT_MAP + numberOfHeatMapSlots;
-		solution.Valuables = linesSansComments.slice(1, numberOfValuables + OFFSET_WEIGHT_LIMIT).map(Valuable.fromString);
+		solution.Valuables = linesSansComments.slice(1, numberOfValuables + OFFSET_WEIGHT_LIMIT).mapi(Valuable.fromString);
 		solution.WeightLimit = Std.parseFloat(linesSansComments[numberOfValuables + OFFSET_WEIGHT_LIMIT]);
 		solution.Best = Valuables.fromString(linesSansComments[numberOfValuables + OFFSET_BEST]);
 		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);

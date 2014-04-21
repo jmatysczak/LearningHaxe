@@ -22,7 +22,7 @@ class BranchAndBoundAlgorithms {
 			currentResidualWeight: Float = weightLimit,
 			currentInSolution = new Vector<Bool>(valuables.length),
 			upperBound = valuables.length - 1,
-			sortedValuables = valuables.mapi(DenseValuable.fromValuable).array().sortByDensityDesc(),
+			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc(),
 			currentState: HSState = ComputeUpperBoundU1;
 
 		while (true) {
@@ -100,17 +100,15 @@ class BranchAndBoundAlgorithms {
 }
 
 private class DenseValuable extends Valuable {
-	public var Index: Int;
 	public var Density: Float;
 	public var InSolution: Bool = false;
 
-	public function new(index, valuable: Valuable) {
-		this.Index = index;
+	public function new(valuable: Valuable) {
 		this.Density = valuable.Value / valuable.Weight;
-		super(valuable.Id, valuable.Value, valuable.Weight);
+		super(valuable.Id, valuable.Index, valuable.Value, valuable.Weight);
 	}
 
-	public static function fromValuable(index: Int, valuable: Valuable) return new DenseValuable(index, valuable);
+	public static function fromValuable(valuable: Valuable) return new DenseValuable(valuable);
 }
 
 private enum HSState {

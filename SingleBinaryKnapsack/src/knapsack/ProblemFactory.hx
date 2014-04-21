@@ -23,7 +23,7 @@ class ProblemFactory {
 		for(size in sizes) {
 			problems.push(new Problem(
 				"Uncorrelated", 'Uncorrelated. Values and weights are distributed in [$lowerBound, $upperBound].',
-				[for (i in 0...size) new Valuable(Std.string(i), lowerBound + (Math.random() * boundsRange), lowerBound + (Math.random() * boundsRange))]
+				[for (i in 0...size) new Valuable(Std.string(i), i, lowerBound + (Math.random() * boundsRange), lowerBound + (Math.random() * boundsRange))]
 			));
 
 			problems.push(new Problem(
@@ -36,7 +36,7 @@ class ProblemFactory {
 							weight = lowerBound + (Math.random() * boundsRange);
 							value = weight - correlation + (Math.random() * correlation * 2);
 						} while (value < 1);
-						new Valuable(Std.string(i), value, weight);
+						new Valuable(Std.string(i), i, value, weight);
 					}
 				]
 			));
@@ -46,7 +46,7 @@ class ProblemFactory {
 				[
 					for (i in 0...size) {
 						var weight = lowerBound + (Math.random() * boundsRange);
-						new Valuable(Std.string(i), weight + correlation, weight);
+						new Valuable(Std.string(i), i, weight + correlation, weight);
 					}
 				]
 			));
@@ -56,7 +56,7 @@ class ProblemFactory {
 				[
 					for (i in 0...size) {
 						var value = lowerBound + (Math.random() * boundsRange);
-						new Valuable(Std.string(i), value, value + correlation);
+						new Valuable(Std.string(i), i, value, value + correlation);
 					}
 				]
 			));
@@ -71,7 +71,7 @@ class ProblemFactory {
 							weight = lowerBound + (Math.random() * boundsRange);
 							value = weight + correlation - almostStrongCorrelation + (Math.random() * almostStrongCorrelation * 2);
 						} while (value < 1);
-						new Valuable(Std.string(i), value, weight);
+						new Valuable(Std.string(i), i, value, weight);
 					}
 				]
 			));

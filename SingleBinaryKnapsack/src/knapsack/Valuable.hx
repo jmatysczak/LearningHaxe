@@ -4,11 +4,13 @@ using Lambda;
 
 class Valuable {
 	public var Id: String;
+	public var Index: Int;
 	public var Value: Float;
 	public var Weight: Float;
 
-	public function new(id, value, weight) {
+	public function new(id, index, value, weight) {
 		this.Id = id;
+		this.Index = index;
 		this.Value = value;
 		this.Weight = weight;
 	}
@@ -17,9 +19,9 @@ class Valuable {
 		return '$Id\t$Value\t$Weight';
 	}
 
-	public static function fromString(s: String) {
+	public static function fromString(i:Int, s: String) {
 		var idValueWeight = s.split("\t");
-		return new Valuable(idValueWeight[0], Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
+		return new Valuable(idValueWeight[0], i, Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
 	}
 
 	public static function allIds(valuables: Iterable<Valuable>) {
