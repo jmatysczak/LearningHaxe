@@ -1,4 +1,5 @@
 package knapsack;
+
 import haxe.ds.Vector.Vector;
 
 using knapsack.Valuable;

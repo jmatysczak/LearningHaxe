@@ -1,3 +1,5 @@
+import haxe.unit.TestRunner;
+import knapsack.BitMapTest;
 import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingSolver;
@@ -13,6 +15,11 @@ class Main {
 	static var SPACING = "    ";
 
 	static function main() {
+		var testRunner = new TestRunner();
+		testRunner.add(new BitMapTest());
+		var testsPassed = testRunner.run();
+		if (!testsPassed) return;
+
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
 
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
