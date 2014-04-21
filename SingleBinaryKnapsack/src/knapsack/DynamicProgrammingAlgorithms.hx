@@ -24,7 +24,6 @@ class DynamicProgrammingAlgorithms {
 			}
 		}
 
-
 		return current.map(function(efValuables) return efValuables.toValuables(valuables));
 	}
 
@@ -45,7 +44,7 @@ class DynamicProgrammingAlgorithms {
 
 	public static function findEfficientFrontierLinkedList(valuables: Array<Valuable>) {
 		var sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
-			firstEFValuables = new EFValuables(sortedValuables[0].Index, null, sortedValuables[0].Value, sortedValuables[0].Weight);
+			firstEFValuables = new EFValuablesNodeWithArray(sortedValuables[0].Index, null, sortedValuables[0].Value, sortedValuables[0].Weight);
 
 		for (i in 1...sortedValuables.length) {
 			var previous = firstEFValuables.toArray(),
@@ -63,17 +62,21 @@ class DynamicProgrammingAlgorithms {
 	}
 }
 
-private class EFValuables {
+private class EFValuablesBase {
 	public var Value: Float;
 	public var Weight: Float;
-	public var SolutionIndexes: Array<Int>;
 
-	public var Next: EFValuables;
-
-	public function new(index, indexes: Array<Int>, value, weight, ?next) {
-		this.Next = next;
+	public function new(value, weight) {
 		this.Value = value;
 		this.Weight = weight;
+	}
+}
+
+private class EFValuables extends EFValuablesBase {
+	public var SolutionIndexes: Array<Int>;
+
+	public function new(index, indexes: Array<Int>, value, weight) {
+		super(value, weight);
 		this.SolutionIndexes = [index];
 		if(indexes != null) for (i in indexes) this.SolutionIndexes.push(i);
 	}
@@ -82,7 +85,16 @@ private class EFValuables {
 		this.SolutionIndexes.sort(function(id1, id2) return id1 - id2);
 		return new Valuables([for(i in this.SolutionIndexes) valuables[i].Id], this.Value, this.Weight);
 	}
-	
+}
+
+private class EFValuablesNodeWithArray extends EFValuables {
+	public var Next: EFValuablesNodeWithArray;
+
+	public function new(index, indexes: Array<Int>, value, weight, ?next) {
+		super(index, indexes, value, weight);
+		this.Next = next;
+	}
+
 	public function toArray() {
 		var valuable = this,
 			valuables = new Array<EFValuables>();
@@ -101,7 +113,7 @@ private class EFValuables {
 		
 		var next = current.Next;
 		if (next == null) {
-			current.Next = new EFValuables(id, ids, value, weight);
+			current.Next = new EFValuablesNodeWithArray(id, ids, value, weight);
 			return current.Next;
 		}
 
@@ -109,7 +121,7 @@ private class EFValuables {
 		
 		while (next != null && next.Value <= value) next = next.Next;
 
-		current.Next = new EFValuables(id, ids, value, weight, next);
+		current.Next = new EFValuablesNodeWithArray(id, ids, value, weight, next);
 		return current.Next;
 	}
 }
