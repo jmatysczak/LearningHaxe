@@ -81,7 +81,8 @@ class DynamicProgrammingAlgorithms {
 			}
 		}
 
-		return firstEFValuables.toArray().map(function(efValuables) return efValuables.toValuables(valuables));
+		//return firstEFValuables.toArray().map(function(efValuables) return efValuables.toValuables(valuables));
+		return firstEFValuables.toArrayOfValuables(valuables);
 	}
 }
 
@@ -174,6 +175,20 @@ private class EFValuablesNodeWithBitMap extends EFValuablesBase {
 			valuable = valuable.Next;
 		}
 		return valuables;
+	}
+
+	public function toArrayOfValuables(valuables: Array<Valuable>) {
+		var valuable = this,
+			valuabless = new Array<Valuables>(),
+			idsByIndex = new Vector(valuables.length);
+		for (i in 0...valuables.length) idsByIndex[i] = valuables[i].Id;
+		while (valuable != null) {
+			var ids = new Vector(valuable.SolutionIndexes.count);
+			valuable.SolutionIndexes.each(function(i, bit) ids[i] = idsByIndex[bit]);
+			valuabless.push(new Valuables(ArrayTools.fromVector(ids), valuable.Value, valuable.Weight));
+			valuable = valuable.Next;
+		}
+		return valuabless;
 	}
 
 	public function insert(id, ids, value, weight) {
