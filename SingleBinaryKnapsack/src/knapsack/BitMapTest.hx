@@ -30,4 +30,21 @@ class BitMapTest extends TestCase {
 		assertEquals(9, setBits.length);
 		for(i in 1...10) assertEquals(i * 10, setBits[i-1]);
 	}
+
+	public function test_Ensure_that_a_BitMap_can_be_cloned() {
+		var bitMap = new BitMap(100);
+		assertEquals(0, bitMap.count);
+
+		for(i in 0...4) bitMap.set(20 + i * 20);
+		assertEquals(4, bitMap.count);
+
+		var clonedBitMap = bitMap.clone();
+		assertEquals(4, clonedBitMap.count);
+
+		var setBits = [];
+		clonedBitMap.each(function(i, bit) setBits[i] = bit);
+
+		assertEquals(4, setBits.length);
+		for(i in 0...4) assertEquals(20 + i * 20, setBits[i]);
+	}
 }

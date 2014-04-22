@@ -4,7 +4,8 @@ import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingSolver;
 import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierArray;
-import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedList;
+import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedListAndArray;
+import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedListAndBitMap;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
@@ -27,7 +28,8 @@ class Main {
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			solvers = [
 				new DynamicProgrammingSolver("Array", findEfficientFrontierArray),
-				new DynamicProgrammingSolver("LinkedList", findEfficientFrontierLinkedList),
+				new DynamicProgrammingSolver("LinkedList&Array", findEfficientFrontierLinkedListAndArray),
+				new DynamicProgrammingSolver("LinkedList&BitMap", findEfficientFrontierLinkedListAndBitMap),
 				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
 				new FullSearchSolver()
 			];

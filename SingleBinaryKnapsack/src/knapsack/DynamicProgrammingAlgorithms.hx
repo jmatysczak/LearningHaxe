@@ -1,5 +1,8 @@
 package knapsack;
 
+import haxe.ds.Vector.Vector;
+
+using knapsack.ArrayTools;
 using knapsack.DynamicProgrammingAlgorithms;
 using knapsack.FloatTools;
 
@@ -42,7 +45,7 @@ class DynamicProgrammingAlgorithms {
 		return valuables;
 	}
 
-	public static function findEfficientFrontierLinkedList(valuables: Array<Valuable>) {
+	public static function findEfficientFrontierLinkedListAndArray(valuables: Array<Valuable>) {
 		var sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
 			firstEFValuables = new EFValuablesNodeWithArray(sortedValuables[0].Index, null, sortedValuables[0].Value, sortedValuables[0].Weight);
 
@@ -50,6 +53,26 @@ class DynamicProgrammingAlgorithms {
 			var previous = firstEFValuables.toArray(),
 				currentSortedValuable = sortedValuables[i],
 				startEFValuables = firstEFValuables.insert(currentSortedValuable.Index, null, currentSortedValuable.Value, currentSortedValuable.Weight);
+
+			for (previousSortedValuable in previous) {
+				var value = previousSortedValuable.Value + currentSortedValuable.Value;
+				var weight = previousSortedValuable.Weight + currentSortedValuable.Weight;
+				startEFValuables = startEFValuables.insert(currentSortedValuable.Index, previousSortedValuable.SolutionIndexes, value, weight);
+			}
+		}
+
+		return firstEFValuables.toArray().map(function(efValuables) return efValuables.toValuables(valuables));
+	}
+
+	public static function findEfficientFrontierLinkedListAndBitMap(valuables: Array<Valuable>) {
+		var emptyBitMap = new BitMap(valuables.length),
+			sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
+			firstEFValuables = new EFValuablesNodeWithBitMap(sortedValuables[0].Index, emptyBitMap, sortedValuables[0].Value, sortedValuables[0].Weight);
+
+		for (i in 1...sortedValuables.length) {
+			var previous = firstEFValuables.toArray(),
+				currentSortedValuable = sortedValuables[i],
+				startEFValuables = firstEFValuables.insert(currentSortedValuable.Index, emptyBitMap, currentSortedValuable.Value, currentSortedValuable.Weight);
 
 			for (previousSortedValuable in previous) {
 				var value = previousSortedValuable.Value + currentSortedValuable.Value;
@@ -122,6 +145,54 @@ private class EFValuablesNodeWithArray extends EFValuables {
 		while (next != null && next.Value <= value) next = next.Next;
 
 		current.Next = new EFValuablesNodeWithArray(id, ids, value, weight, next);
+		return current.Next;
+	}
+}
+
+private class EFValuablesNodeWithBitMap extends EFValuablesBase {
+	public var Next: EFValuablesNodeWithBitMap;
+	public var SolutionIndexes: BitMap;
+
+	public function new(index, indexes: BitMap, value, weight, ?next) {
+		super(value, weight);
+		this.Next = next;
+		this.SolutionIndexes = indexes.clone();
+		this.SolutionIndexes.set(index);
+	}
+
+	public function toValuables(valuables: Array<Valuable>) {
+		var v = new Vector(this.SolutionIndexes.count);
+		this.SolutionIndexes.each(function(i, bit) v[i] = valuables[bit].Id);
+		return new Valuables(ArrayTools.fromVector(v), this.Value, this.Weight);
+	}
+
+	public function toArray() {
+		var valuable = this,
+			valuables = new Array<EFValuablesNodeWithBitMap>();
+		while (valuable != null) {
+			valuables.push(valuable);
+			valuable = valuable.Next;
+		}
+		return valuables;
+	}
+
+	public function insert(id, ids, value, weight) {
+		var current = this;
+		while (current.Next != null && current.Next.Weight < weight) current = current.Next;
+
+		if (value <= current.Value) return current;
+		
+		var next = current.Next;
+		if (next == null) {
+			current.Next = new EFValuablesNodeWithBitMap(id, ids, value, weight);
+			return current.Next;
+		}
+
+		if (weight == next.Weight && value <= next.Value) return next;
+		
+		while (next != null && next.Value <= value) next = next.Next;
+
+		current.Next = new EFValuablesNodeWithBitMap(id, ids, value, weight, next);
 		return current.Next;
 	}
 }
