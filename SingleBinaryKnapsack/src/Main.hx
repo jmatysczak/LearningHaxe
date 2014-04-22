@@ -28,8 +28,8 @@ class Main {
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			solvers = [
 				new DynamicProgrammingSolver("Array", findEfficientFrontierArray),
-				new DynamicProgrammingSolver("LinkedList&Array", findEfficientFrontierLinkedListAndArray),
-				new DynamicProgrammingSolver("LinkedList&BitMap", findEfficientFrontierLinkedListAndBitMap),
+				new DynamicProgrammingSolver("LinkedList & Array", findEfficientFrontierLinkedListAndArray),
+				new DynamicProgrammingSolver("LinkedList & BitMap", findEfficientFrontierLinkedListAndBitMap),
 				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
 				new FullSearchSolver()
 			];
