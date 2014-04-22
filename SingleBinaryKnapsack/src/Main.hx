@@ -16,10 +16,14 @@ class Main {
 	static var SPACING = "    ";
 
 	static function main() {
-		var testRunner = new TestRunner();
-		testRunner.add(new BitMapTest());
-		var testsPassed = testRunner.run();
-		if (!testsPassed) return;
+		var full = Sys.getEnv("KNAPSACK_FULL") == "1";
+
+		if(full) {
+			var testRunner = new TestRunner();
+			testRunner.add(new BitMapTest());
+			var testsPassed = testRunner.run();
+			if (!testsPassed) return;
+		}
 
 		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
 
@@ -36,7 +40,7 @@ class Main {
 
 		example.shouldEqual(example);
 
-		var problems = [exampleProblem].concat(ProblemFactory.createProblems([16, 25 , 27])),
+		var problems = (full ? [exampleProblem].concat(ProblemFactory.createProblems([16, 25])) : []).concat(ProblemFactory.createProblems([27])),
 			lastValuableCount = -1;
 		for (problem in problems) {
 			if (problem.Valuables.length != lastValuableCount) {

@@ -6,6 +6,8 @@ copy test\knapsack\example_* bin
 
 cd bin
 
+rem SET KNAPSACK_FULL=1
+
 neko SingleBinaryKnapsack.n
 SingleBinaryKnapsack-CS\bin\SingleBinaryKnapsack-CS.exe
 java -jar SingleBinaryKnapsack-Java\SingleBinaryKnapsack-Java.jar
