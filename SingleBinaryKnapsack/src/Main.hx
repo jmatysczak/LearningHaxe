@@ -40,7 +40,7 @@ class Main {
 
 		example.shouldEqual(example);
 
-		var problems = (full ? [exampleProblem].concat(ProblemFactory.createProblems([16, 25])) : []).concat(ProblemFactory.createProblems([27])),
+		var problems = (full ? [exampleProblem].concat(ProblemFactory.createProblems([16, 25])) : []).concat(ProblemFactory.createProblems([30])),
 			lastValuableCount = -1;
 		for (problem in problems) {
 			if (problem.Valuables.length != lastValuableCount) {
