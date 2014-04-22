@@ -27,16 +27,16 @@ class Main {
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			solvers = [
-				new DynamicProgrammingSolver("Array", findEfficientFrontierArray),
-				new DynamicProgrammingSolver("LinkedList & Array", findEfficientFrontierLinkedListAndArray),
-				new DynamicProgrammingSolver("LinkedList & BitMap", findEfficientFrontierLinkedListAndBitMap),
+				new DynamicProgrammingSolver("Array", 25, findEfficientFrontierArray),
+				new DynamicProgrammingSolver("LinkedList & Array", 25, findEfficientFrontierLinkedListAndArray),
+				new DynamicProgrammingSolver("LinkedList & BitMap", 500, findEfficientFrontierLinkedListAndBitMap),
 				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
 				new FullSearchSolver()
 			];
 
 		example.shouldEqual(example);
 
-		var problems = [exampleProblem].concat(ProblemFactory.createProblems([16, 25 /*, 30*/])),
+		var problems = [exampleProblem].concat(ProblemFactory.createProblems([16, 25 , 27])),
 			lastValuableCount = -1;
 		for (problem in problems) {
 			if (problem.Valuables.length != lastValuableCount) {
