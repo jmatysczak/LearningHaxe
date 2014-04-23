@@ -77,7 +77,7 @@ class Main {
 					results[i].shouldEqual(results[0]);
 				} catch (e: Dynamic) {
 					Sys.println('"${results[i].SolverId}" does not equal the expected value.');
-					File.saveContent("error" + fileNameSuffix, e);
+					File.saveContent("error_" + getExecutionLang() + fileNameSuffix, e);
 					throw e;
 				}
 			}
@@ -92,6 +92,18 @@ class Main {
 		var finish = Sys.time();
 		Sys.println(SPACING + SPACING + SPACING + '${solver.Title} executed in (seconds): ${finish - start}');
 		return solution;
+	}
+
+	static function getExecutionLang() {
+		#if cs
+		return "C#" + untyped __cs__('(System.Type.GetType("Mono.Runtime") == null ? "MS" : "Mono")');
+		#elseif java
+		return "Java";
+		#elseif neko
+		return "Neko";
+		#else
+		return "Not supported by 'getCompilationTarget'";
+		#end
 	}
 
 	static function getExecutionEnvironment() {
