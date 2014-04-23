@@ -16,7 +16,8 @@ class Main {
 	static var SPACING = "    ";
 
 	static function main() {
-		var full = Sys.getEnv("KNAPSACK_FULL") == "1";
+		var full = Sys.getEnv("KNAPSACK_FULL") == "1",
+			save = Sys.getEnv("KNAPSACK_SAVE") == "1";
 
 		if(full) {
 			var testRunner = new TestRunner();
@@ -69,7 +70,7 @@ class Main {
 				if (valuableCount <= solver.ValuableCountLimit)
 					results.push(time(solver, valuables, weightLimit, heatMapSlotCount));
 
-			if (!exampleFileNameExists) File.saveContent(exampleFileName, results[0].toString());
+			if (save && !exampleFileNameExists) File.saveContent(exampleFileName, results[0].toString());
 
 			for(i in 1...results.length) {
 				try {
