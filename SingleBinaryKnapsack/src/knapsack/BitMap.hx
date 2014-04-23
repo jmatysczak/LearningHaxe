@@ -35,7 +35,7 @@ class BitMap {
 		for (i in 0...this.bits.length) {
 			var int = this.bits[i];
 			for (j in 0...32) {
-				if (int & (1 << j) > 0) {
+				if (int & (1 << j) != 0) {
 					f(index++, i * 32 + j);
 				}
 			}
