@@ -86,7 +86,14 @@ class ProblemFactory {
 				]
 			));
 
-			// TODO: Uncorrelated instances with similar weights: weights wj are distributed in [100000, 100100] and the profits pj in [1, 1000].
+			problems.push(new Problem(
+				"Uncorrelated", 'Uncorrelated instances with similar weights. Weights are distributed in [100000, 100100], Value in [1, 1000].',
+				[
+					for (i in 0...size) {
+						new Valuable(Std.string(i), i, 1 + Math.random() * 999, 100000 + Math.random() * 100);
+					}
+				]
+			));
 		}
 
 		return problems;
