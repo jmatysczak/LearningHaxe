@@ -75,17 +75,17 @@ class ProblemFactory {
 					}
 				]
 			));
-/* Too hard to do right now. Need to cleanup code. Need to make the efficient frontier faster.
+
 			problems.push(new Problem(
 				"SubsetSum", 'Subset sum. Weights are distributed in [$lowerBound, $upperBound], Value = Weight.',
 				[
 					for (i in 0...size) {
 						var weight = lowerBound + (Math.random() * boundsRange);
-						new Valuable(Std.string(i), weight, weight);
+						new Valuable(Std.string(i), i, weight, weight);
 					}
 				]
 			));
-*/
+
 			// TODO: Uncorrelated instances with similar weights: weights wj are distributed in [100000, 100100] and the profits pj in [1, 1000].
 		}
 
