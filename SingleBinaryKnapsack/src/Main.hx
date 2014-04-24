@@ -3,9 +3,7 @@ import knapsack.BitMapTest;
 import knapsack.BranchAndBoundSolver;
 import knapsack.BranchAndBoundAlgorithms.findByHorowitzSahni;
 import knapsack.DynamicProgrammingSolver;
-import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierArray;
-import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedListAndArray;
-import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontierLinkedListAndBitMap;
+import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
@@ -32,9 +30,7 @@ class Main {
 			heatMapSlotCount = example.HeatMap.length,
 			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
 			solvers = [
-				new DynamicProgrammingSolver("Array", 25, findEfficientFrontierArray),
-				new DynamicProgrammingSolver("LinkedList & Array", 25, findEfficientFrontierLinkedListAndArray),
-				new DynamicProgrammingSolver("LinkedList & BitMap", 500, findEfficientFrontierLinkedListAndBitMap),
+				new DynamicProgrammingSolver("", 500, findEfficientFrontier),
 				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
 				new FullSearchSolver()
 			];
