@@ -1,17 +1,20 @@
 package knapsack;
 
+import knapsack.ProblemFactory.Difficulty;
+
 using Lambda;
 using knapsack.Valuable;
 
 class BranchAndBoundSolver implements Solver {
 	public var Title: String;
-	public var ValuableCountLimit = 500;
 	var solverImpl: Array<Valuable> -> Float -> Valuables;
 
 	public function new(title, solverImpl) {
 		this.Title = title;
 		this.solverImpl = solverImpl;
 	}
+
+	public function getValuableCountLimit(d: Difficulty): Int return d == VeryHard ? 20 : 500;
 
 	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
 		var best = this.solverImpl(valuables, weightLimit);

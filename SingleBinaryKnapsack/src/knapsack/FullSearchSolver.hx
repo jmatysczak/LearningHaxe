@@ -1,19 +1,19 @@
 package knapsack;
 
 import haxe.ds.Vector.Vector;
+import knapsack.ProblemFactory.Difficulty;
 
 using knapsack.Valuable;
 using knapsack.FullSearchSolver;
 
 class FullSearchSolver implements Solver {
 	public var Title = "Full Search";
-	public var ValuableCountLimit = 19;
 
 	public function new() { }
 
-	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
-		if (valuables.length > this.ValuableCountLimit) throw 'FullSearchSolver does not support more than $ValuableCountLimit Valuable items.';
+	public function getValuableCountLimit(d: Difficulty): Int return d == VeryHard ? 15 : 20;
 
+	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
 		var bestValue: Float = 0,
 			bestWeight: Float = 0,
 			bestInSolution = 0,

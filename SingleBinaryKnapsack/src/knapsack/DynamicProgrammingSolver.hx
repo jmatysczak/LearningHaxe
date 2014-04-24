@@ -1,17 +1,19 @@
 package knapsack;
 
+import knapsack.ProblemFactory.Difficulty;
+
 using knapsack.Valuable;
 
 class DynamicProgrammingSolver implements Solver {
 	public var Title = "Dynamic Programming";
-	public var ValuableCountLimit = 500;
 	var findEfficientFrontier: Array<Valuable> -> Array<Valuables>;
 
-	public function new(title, limit, findEfficientFrontier) {
+	public function new(title, findEfficientFrontier) {
 		this.Title += " (" + title + ")";
-		this.ValuableCountLimit = limit;
 		this.findEfficientFrontier = findEfficientFrontier;
 	}
+
+	public function getValuableCountLimit(d: Difficulty): Int return d == VeryHard ? 20 : 500;
 
 	public function solve(valuables: Array<Valuable>, weightLimit: Float, heatMapSlotCount: Int) {
 		var efficientFrontier = this.findEfficientFrontier(valuables);

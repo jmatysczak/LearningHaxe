@@ -28,9 +28,9 @@ class Main {
 
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
 			heatMapSlotCount = example.HeatMap.length,
-			exampleProblem = new Problem("Uncorrelated", "Uncorrelated.", example.Valuables),
+			exampleProblem = new Problem("Uncorrelated", Easy, "Uncorrelated.", example.Valuables),
 			solvers = [
-				new DynamicProgrammingSolver("", 500, findEfficientFrontier),
+				new DynamicProgrammingSolver("", findEfficientFrontier),
 				new BranchAndBoundSolver("Horowitz-Sahni", findByHorowitzSahni),
 				new FullSearchSolver()
 			];
@@ -63,8 +63,13 @@ class Main {
 			}
 
 			for (solver in solvers)
-				if (valuableCount <= solver.ValuableCountLimit)
+				if (valuableCount <= solver.getValuableCountLimit(problem.Difficulty))
 					results.push(time(solver, valuables, weightLimit, heatMapSlotCount));
+
+			if (results.length == 0) {
+				Sys.println(SPACING + SPACING + SPACING + "!!! Too hard. !!!");
+				continue;
+			}
 
 			if (save && !exampleFileNameExists) File.saveContent(exampleFileName, results[0].toString());
 

@@ -22,12 +22,12 @@ class ProblemFactory {
 
 		for(size in sizes) {
 			problems.push(new Problem(
-				"Uncorrelated", 'Uncorrelated. Values and weights are distributed in [$lowerBound, $upperBound].',
+				"Uncorrelated", Easy, 'Uncorrelated. Values and weights are distributed in [$lowerBound, $upperBound].',
 				[for (i in 0...size) new Valuable(Std.string(i), i, lowerBound + (Math.random() * boundsRange), lowerBound + (Math.random() * boundsRange))]
 			));
 
 			problems.push(new Problem(
-				"WeaklyCorrelated", 'Weakly correlated. Weights are distributed in [$lowerBound, $upperBound], Value in [Weight - $correlation, Weight + $correlation].',
+				"WeaklyCorrelated", Easy, 'Weakly correlated. Weights are distributed in [$lowerBound, $upperBound], Value in [Weight - $correlation, Weight + $correlation].',
 				[
 					for (i in 0...size) {
 						var value: Float = 0,
@@ -42,7 +42,7 @@ class ProblemFactory {
 			));
 
 			problems.push(new Problem(
-				"StronglyCorrelated", 'Strongly correlated. Weights are distributed in [$lowerBound, $upperBound], Value = Weight + $correlation.',
+				"StronglyCorrelated", Hard, 'Strongly correlated. Weights are distributed in [$lowerBound, $upperBound], Value = Weight + $correlation.',
 				[
 					for (i in 0...size) {
 						var weight = lowerBound + (Math.random() * boundsRange);
@@ -52,7 +52,7 @@ class ProblemFactory {
 			));
 
 			problems.push(new Problem(
-				"InverseStronglyCorrelated", 'Inverse strongly correlated. Values are distributed in [$lowerBound, $upperBound], Weight = Value + $correlation.',
+				"InverseStronglyCorrelated", Hard, 'Inverse strongly correlated. Values are distributed in [$lowerBound, $upperBound], Weight = Value + $correlation.',
 				[
 					for (i in 0...size) {
 						var value = lowerBound + (Math.random() * boundsRange);
@@ -62,7 +62,7 @@ class ProblemFactory {
 			));
 
 			problems.push(new Problem(
-				"AlmostStronglyCorrelated", 'Almost strongly correlated. Weights are distributed in [$lowerBound, $upperBound], Value in [Weight + $correlation - $almostStrongCorrelation, Weight + $correlation + $almostStrongCorrelation].',
+				"AlmostStronglyCorrelated", Hard, 'Almost strongly correlated. Weights are distributed in [$lowerBound, $upperBound], Value in [Weight + $correlation - $almostStrongCorrelation, Weight + $correlation + $almostStrongCorrelation].',
 				[
 					for (i in 0...size) {
 						var value: Float = 0,
@@ -77,7 +77,7 @@ class ProblemFactory {
 			));
 
 			problems.push(new Problem(
-				"SubsetSum", 'Subset sum. Weights are distributed in [$lowerBound, $upperBound], Value = Weight.',
+				"SubsetSum", VeryHard, 'Subset sum. Weights are distributed in [$lowerBound, $upperBound], Value = Weight.',
 				[
 					for (i in 0...size) {
 						var weight = lowerBound + (Math.random() * boundsRange);
@@ -87,7 +87,7 @@ class ProblemFactory {
 			));
 
 			problems.push(new Problem(
-				"Uncorrelated", 'Uncorrelated instances with similar weights. Weights are distributed in [100000, 100100], Value in [1, 1000].',
+				"Uncorrelated", Easy, 'Uncorrelated instances with similar weights. Weights are distributed in [100000, 100100], Value in [1, 1000].',
 				[
 					for (i in 0...size) {
 						new Valuable(Std.string(i), i, 1 + Math.random() * 999, 100000 + Math.random() * 100);
@@ -100,16 +100,25 @@ class ProblemFactory {
 	}
 }
 
+enum Difficulty {
+	Easy;
+	Medium;
+	Hard;
+	VeryHard;
+}
+
 class Problem {
 	public var Title: String;
 	public var Descr: String;
 	public var Valuables: Array<Valuable>;
+	public var Difficulty: Difficulty;
 	public var WeightLimit: Float;
 
-	public function new(title, descr, valuables) {
+	public function new(title, difficulty, descr, valuables) {
 		this.Title = title;
 		this.Descr = descr;
 		this.Valuables = valuables;
+		this.Difficulty = difficulty;
 		this.WeightLimit = this.Valuables.calculateTotalWeight() / 2;
 	}
 }
