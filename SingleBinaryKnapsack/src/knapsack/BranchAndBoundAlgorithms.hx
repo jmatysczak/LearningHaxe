@@ -78,7 +78,13 @@ class BranchAndBoundAlgorithms {
 
 		sortedValuables.setInSolution(bestInSolution);
 
-		var bestWeight = sortedValuables.fold(function(valuable, weigth) return weigth + (valuable.InSolution ? valuable.Weight : 0), 0);
+		bestValue = 0;
+		var bestWeight: Float = 0;
+		for (sortedValuable in sortedValuables)
+			if (sortedValuable.InSolution) {
+				bestValue += sortedValuable.Value;
+				bestWeight += sortedValuable.Weight;
+			}
 
 		return new Valuables(sortedValuables.sortByIndexAsc().getIdsInSolution(), bestValue, bestWeight);
 	}
