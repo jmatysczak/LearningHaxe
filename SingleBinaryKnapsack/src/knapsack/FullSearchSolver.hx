@@ -3,6 +3,7 @@ package knapsack;
 import haxe.ds.Vector.Vector;
 import knapsack.ProblemFactory.Difficulty;
 
+using knapsack.ArrayTools;
 using knapsack.Valuable;
 using knapsack.FullSearchSolver;
 
@@ -71,7 +72,7 @@ class FullSearchSolver implements Solver {
 	}
 
 	public static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
-		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id];
+		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id].toStrVector();
 	}
 
 	static function toValuables(heatMapItems: Vector<HMValuables>, valuables: Array<Valuable>) {

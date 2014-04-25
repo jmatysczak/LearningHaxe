@@ -65,7 +65,7 @@ private class EFValuables {
 		while (valuable != null) {
 			var ids = new Vector(valuable.SolutionIndexes.count);
 			valuable.SolutionIndexes.each(function(i, bit) ids[i] = idsByIndex[bit]);
-			valuabless.push(new Valuables(ArrayTools.fromVector(ids), valuable.Value, valuable.Weight));
+			valuabless.push(new Valuables(ids, valuable.Value, valuable.Weight));
 			valuable = valuable.Next;
 		}
 		return valuabless;

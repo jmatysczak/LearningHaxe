@@ -1,4 +1,5 @@
 package knapsack;
+import haxe.ds.Vector.Vector;
 
 using Lambda;
 
@@ -24,8 +25,10 @@ class Valuable {
 		return new Valuable(idValueWeight[0], i, Std.parseFloat(idValueWeight[1]), Std.parseFloat(idValueWeight[2]));
 	}
 
-	public static function allIds(valuables: Iterable<Valuable>) {
-		return [for(valuable in valuables) valuable.Id];
+	public static function allIds(valuables: Array<Valuable>) {
+		var ids = new Vector(valuables.length);
+		for (valuable in valuables) ids[valuable.Index] = valuable.Id;
+		return ids;
 	}
 
 	public static function calculateTotalValue(valuables: Iterable<Valuable>) {

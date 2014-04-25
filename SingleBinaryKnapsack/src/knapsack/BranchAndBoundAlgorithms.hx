@@ -5,6 +5,7 @@ import haxe.ds.Vector.Vector;
 using Lambda;
 using knapsack.BranchAndBoundAlgorithms;
 using knapsack.FloatTools;
+using knapsack.ArrayTools;
 
 class BranchAndBoundAlgorithms {
 	/**
@@ -86,7 +87,7 @@ class BranchAndBoundAlgorithms {
 				bestWeight += sortedValuable.Weight;
 			}
 
-		return new Valuables(sortedValuables.sortByIndexAsc().getIdsInSolution(), bestValue, bestWeight);
+		return new Valuables(sortedValuables.sortByIndexAsc().getIdsInSolution().toStrVector(), bestValue, bestWeight);
 	}
 
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {

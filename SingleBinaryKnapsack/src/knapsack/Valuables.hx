@@ -1,7 +1,12 @@
 package knapsack;
 
+import haxe.ds.Vector;
+
+using knapsack.ArrayTools;
+using knapsack.VectorTools;
+
 class Valuables {
-	public var Ids: Array<String>;
+	public var Ids: Vector<String>;
 	public var Value: Float;
 	public var Weight: Float;
 
@@ -17,6 +22,6 @@ class Valuables {
 
 	public static function fromString(s: String) {
 		var valueWeightIds = s.split("\t");
-		return new Valuables(valueWeightIds.slice(2), Std.parseFloat(valueWeightIds[0]), Std.parseFloat(valueWeightIds[1]));
+		return new Valuables(valueWeightIds.slice(2).toStrVector(), Std.parseFloat(valueWeightIds[0]), Std.parseFloat(valueWeightIds[1]));
 	}
 }
