@@ -67,7 +67,7 @@ class Main {
 					results.push(time(solver, valuables, weightLimit, heatMapSlotCount));
 
 			if (results.length == 0) {
-				Sys.println(SPACING + SPACING + SPACING + "!!! Too hard. !!!");
+				Sys.println(SPACING + SPACING + SPACING + "--- Too hard. ---");
 				continue;
 			}
 
