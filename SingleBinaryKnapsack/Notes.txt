@@ -1,3 +1,10 @@
-Closures appear to be expensive. See the code generated before commit 1444773942681c806041444a213849b86c3969ea (Apr 25 20:13:27 2014).
+Closures appear to be expensive. See the code generated before commit
+1444773942681c806041444a213849b86c3969ea (Apr 25 20:13:27 2014).
 
-Switching on an enum appears to be expensive.  See the code generated before commit 1f3206ba08efc9f3d95a0fe6dd75de06db8f8d0a (Apr 25 21:07:13 2014).
+Switching (using the switch statement) on an enum appears to be expensive.  See the code generated
+before commit 1f3206ba08efc9f3d95a0fe6dd75de06db8f8d0a (Apr 25 21:07:13 2014).
+
+There appears to be a bug in C#/Java that is outputted for generic Vectors. (Or at least I noticed
+it while using Vectors). Basically, the result is typed as and object array (object[]). Instead of
+the actual concrete type. The code compiles and the neko runtime executes successfully, but the C#
+and Java versions fail with class cast exceptions.

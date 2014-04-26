@@ -23,7 +23,7 @@ class BranchAndBoundAlgorithms {
 			currentResidualWeight: Float = weightLimit,
 			currentInSolution = new Vector<Bool>(valuables.length),
 			upperBound = valuables.length - 1,
-			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc(),
+			sortedValuables = valuables.map(DenseValuable.fromValuable).sortByDensityDesc().toVector(),
 			currentState: HSState = ComputeUpperBoundU1;
 
 		while (true) {
@@ -79,38 +79,36 @@ class BranchAndBoundAlgorithms {
 			}
 		}
 
-		sortedValuables.setInSolution(bestInSolution);
-
 		bestValue = 0;
-		var bestWeight: Float = 0;
-		for (sortedValuable in sortedValuables)
-			if (sortedValuable.InSolution) {
-				bestValue += sortedValuable.Value;
-				bestWeight += sortedValuable.Weight;
+		var bestWeight: Float = 0,
+			idsByIndex = new Vector(valuables.length),
+			idsInSolution = new BitMap(sortedValuables.length);
+		for (i in 0...valuables.length) idsByIndex[i] = valuables[i].Id;
+		for (i in 0...sortedValuables.length) {
+			if (bestInSolution[i]) {
+				bestValue += sortedValuables[i].Value;
+				bestWeight += sortedValuables[i].Weight;
+				idsInSolution.set(sortedValuables[i].Index);
 			}
+		}
 
-		return new Valuables(sortedValuables.sortByIndexAsc().getIdsInSolution().toStrVector(), bestValue, bestWeight);
+		return new Valuables(idsInSolution.toMappedVector(idsByIndex), bestValue, bestWeight);
 	}
 
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {
 		valuables.sort(function(dv1, dv2) return dv2.Density.compareTo(dv1.Density));
 		return valuables;
 	}
-	static function setInSolution(valuables: Array<DenseValuable>, inSolution: Vector<Bool>) {
-		for (i in 0...valuables.length) valuables[i].InSolution = inSolution[i];
-	}
-	static function sortByIndexAsc(valuables: Array<DenseValuable>) {
-		valuables.sort(function(dv1, dv2) return dv1.Index - dv2.Index);
-		return valuables;
-	}
-	static function getIdsInSolution(valuables: Array<DenseValuable>) {
-		return [for (valuable in valuables) if (valuable.InSolution) valuable.Id];
+
+	static function toVector(valuables: Array<DenseValuable>) {
+		var v = new Vector(valuables.length);
+		for (i in 0...valuables.length) v[i] = valuables[i];
+		return v;
 	}
 }
 
 private class DenseValuable extends Valuable {
 	public var Density: Float;
-	public var InSolution: Bool = false;
 
 	public function new(valuable: Valuable) {
 		this.Density = valuable.Value / valuable.Weight;
