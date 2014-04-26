@@ -30,15 +30,17 @@ class BitMap {
 		this.count++;
 	}
 
-	public function each(f: Int -> Int -> Void) {
-		var index = 0;
+	public function toMappedVector(map: Vector<String>): Vector<String> {
+		var index = 0,
+			mappedVector = new Vector<String>(this.count);
 		for (i in 0...this.bits.length) {
 			var int = this.bits[i];
 			for (j in 0...32) {
 				if (int & (1 << j) != 0) {
-					f(index++, i * 32 + j);
+					mappedVector[index++] = map[i * 32 + j];
 				}
 			}
 		}
+		return mappedVector;
 	}
 }

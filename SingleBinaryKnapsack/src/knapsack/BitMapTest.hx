@@ -1,5 +1,6 @@
 package knapsack;
 
+import haxe.ds.Vector.Vector;
 import haxe.unit.TestCase;
 
 class BitMapTest extends TestCase {
@@ -10,11 +11,12 @@ class BitMapTest extends TestCase {
 		bitMap.set(10);
 		assertEquals(1, bitMap.count);
 
-		var setBits = [];
-		bitMap.each(function(i, bit) setBits[i] = bit);
+		var map = new Vector(32);
+		var expected = map[10] = "Some value.";
+		var mappedVector = bitMap.toMappedVector(map);
 
-		assertEquals(1, setBits.length);
-		assertEquals(10, setBits[0]);
+		assertEquals(1, mappedVector.length);
+		assertEquals(expected, mappedVector[0]);
 	}
 
 	public function test_Ensure_that_bits_that_span_int_boundaries_can_be_set_and_retrieved() {
@@ -24,11 +26,12 @@ class BitMapTest extends TestCase {
 		for(i in 1...10) bitMap.set(i*10);
 		assertEquals(9, bitMap.count);
 
-		var setBits = [];
-		bitMap.each(function(i, bit) setBits[i] = bit);
+		var map = new Vector(100);
+		for(i in 1...10) map[i*10] = 'Some value: ${i*10}';
+		var mappedVector = bitMap.toMappedVector(map);
 
-		assertEquals(9, setBits.length);
-		for(i in 1...10) assertEquals(i * 10, setBits[i-1]);
+		assertEquals(9, mappedVector.length);
+		for(i in 1...10) assertEquals('Some value: ${i*10}', mappedVector[i-1]);
 	}
 
 	public function test_Ensure_that_bits_at_int_boundaries_can_be_set_and_retrieved() {
@@ -39,11 +42,12 @@ class BitMapTest extends TestCase {
 		for(b in bits) bitMap.set(b);
 		assertEquals(bits.length, bitMap.count);
 
-		var setBits = [];
-		bitMap.each(function(i, bit) setBits[i] = bit);
+		var map = new Vector(100);
+		for (i in bits) map[i] = 'Some value: $i';
+		var mappedVector = bitMap.toMappedVector(map);
 
-		assertEquals(bits.length, setBits.length);
-		for(i in 0...bits.length) assertEquals(bits[i], setBits[i]);
+		assertEquals(bits.length, mappedVector.length);
+		for(i in 0...bits.length) assertEquals('Some value: ${bits[i]}', mappedVector[i]);
 	}
 
 	public function test_Ensure_that_a_BitMap_can_be_cloned() {
@@ -56,10 +60,11 @@ class BitMapTest extends TestCase {
 		var clonedBitMap = bitMap.clone();
 		assertEquals(4, clonedBitMap.count);
 
-		var setBits = [];
-		clonedBitMap.each(function(i, bit) setBits[i] = bit);
+		var map = new Vector(100);
+		for(i in 0...4) map[20 + i * 20] = 'Some value: ${20 + i * 20}';
+		var mappedVector = bitMap.toMappedVector(map);
 
-		assertEquals(4, setBits.length);
-		for(i in 0...4) assertEquals(20 + i * 20, setBits[i]);
+		assertEquals(4, mappedVector.length);
+		for(i in 0...4) assertEquals('Some value: ${20 + i * 20}', mappedVector[i]);
 	}
 }

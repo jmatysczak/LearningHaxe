@@ -17,14 +17,16 @@ class Main {
 		var full = Sys.getEnv("KNAPSACK_FULL") == "1",
 			save = Sys.getEnv("KNAPSACK_SAVE") == "1";
 
+		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
+
 		if(full) {
+			Sys.println("");
 			var testRunner = new TestRunner();
 			testRunner.add(new BitMapTest());
 			var testsPassed = testRunner.run();
 			if (!testsPassed) return;
+			Sys.println("");
 		}
-
-		Sys.println('\nExecution environment: ${getExecutionEnvironment()}');
 
 		var example = Solution.fromString(File.getContent("example_10_Uncorrelated.txt")),
 			heatMapSlotCount = example.HeatMap.length,
