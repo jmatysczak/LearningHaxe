@@ -1,0 +1,3 @@
+Closures appear to be expensive. See the code generated before commit 1444773942681c806041444a213849b86c3969ea (Apr 25 20:13:27 2014).
+
+Switching on an enum appears to be expensive.  See the code generated before commit 
