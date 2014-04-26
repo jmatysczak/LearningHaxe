@@ -27,53 +27,55 @@ class BranchAndBoundAlgorithms {
 			currentState: HSState = ComputeUpperBoundU1;
 
 		while (true) {
-			switch(currentState) {
-				case ComputeUpperBoundU1:
-					var r = j - 1,
-						jToRValue: Float = 0,
-						jToRWeight: Float = 0;
-					do {
-						r++;
-						jToRValue += sortedValuables[r].Value;
-						jToRWeight += sortedValuables[r].Weight;
-					} while (r < upperBound && jToRWeight <= currentResidualWeight);
-					var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight + sortedValuables[r].Weight) * sortedValuables[r].Density;
-					currentState = bestValue >= currentValue + u ? Backtrack : PerformAForwardStep;
-				case PerformAForwardStep:
-					while (j <= upperBound && sortedValuables[j].Weight <= currentResidualWeight) {
-						currentResidualWeight -= sortedValuables[j].Weight;
-						currentValue += sortedValuables[j].Value;
-						currentInSolution[j] = true;
-						j++;
-					}
-					if (j <= upperBound) {
-						currentInSolution[j] = false;
-						j++;
-					}
-					if (j < upperBound) currentState = ComputeUpperBoundU1;
-					if (j == upperBound) currentState = PerformAForwardStep;
-					if (j > upperBound) currentState = UpdateTheBestSolution;
-				case UpdateTheBestSolution:
-					if (bestValue < currentValue) {
-						bestValue = currentValue;
-						for (i in 0...bestInSolution.length) bestInSolution[i] = currentInSolution[i];
-					}
-					j = upperBound;
-					if (currentInSolution[upperBound]) {
-						currentResidualWeight += sortedValuables[upperBound].Weight;
-						currentValue -= sortedValuables[upperBound].Value;
-						currentInSolution[upperBound] = false;
-					}
-					currentState = Backtrack;
-				case Backtrack:
-					var i = j - 1;
-					while (i >= 0 && !currentInSolution[i]) i--;
-					if (i == -1) break;
-					currentResidualWeight += sortedValuables[i].Weight;
-					currentValue -= sortedValuables[i].Value;
-					currentInSolution[i] = false;
-					j = i + 1;
-					currentState = ComputeUpperBoundU1;
+			if(currentState == ComputeUpperBoundU1) {
+				var r = j - 1,
+					jToRValue: Float = 0,
+					jToRWeight: Float = 0;
+				do {
+					r++;
+					jToRValue += sortedValuables[r].Value;
+					jToRWeight += sortedValuables[r].Weight;
+				} while (r < upperBound && jToRWeight <= currentResidualWeight);
+				var u = (jToRValue - sortedValuables[r].Value) + (currentResidualWeight - jToRWeight + sortedValuables[r].Weight) * sortedValuables[r].Density;
+				currentState = bestValue >= currentValue + u ? Backtrack : PerformAForwardStep;
+			}
+			if(currentState == PerformAForwardStep) {
+				while (j <= upperBound && sortedValuables[j].Weight <= currentResidualWeight) {
+					currentResidualWeight -= sortedValuables[j].Weight;
+					currentValue += sortedValuables[j].Value;
+					currentInSolution[j] = true;
+					j++;
+				}
+				if (j <= upperBound) {
+					currentInSolution[j] = false;
+					j++;
+				}
+				if (j < upperBound) currentState = ComputeUpperBoundU1;
+				if (j == upperBound) currentState = PerformAForwardStep;
+				if (j > upperBound) currentState = UpdateTheBestSolution;
+			}
+			if(currentState == UpdateTheBestSolution) {
+				if (bestValue < currentValue) {
+					bestValue = currentValue;
+					for (i in 0...bestInSolution.length) bestInSolution[i] = currentInSolution[i];
+				}
+				j = upperBound;
+				if (currentInSolution[upperBound]) {
+					currentResidualWeight += sortedValuables[upperBound].Weight;
+					currentValue -= sortedValuables[upperBound].Value;
+					currentInSolution[upperBound] = false;
+				}
+				currentState = Backtrack;
+			}
+			if(currentState == Backtrack) {
+				var i = j - 1;
+				while (i >= 0 && !currentInSolution[i]) i--;
+				if (i == -1) break;
+				currentResidualWeight += sortedValuables[i].Weight;
+				currentValue -= sortedValuables[i].Value;
+				currentInSolution[i] = false;
+				j = i + 1;
+				currentState = ComputeUpperBoundU1;
 			}
 		}
 
