@@ -50,7 +50,11 @@ class Solution {
 		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
 
-		solution.shouldBeEquivalentTo(linesSansComments.join(NEWLINE()), "The input was not parsed correctly.");
+		if (numberOfValuables <= 20) {
+			// As the size of the solution increases the below "join" tends to cause out of memory errors.
+			// Since this is just a sanity check, it is really unnecessary to do all of the time.
+			solution.shouldBeEquivalentTo(linesSansComments.join(NEWLINE()), "The input was not parsed correctly.");
+		}
 
 		return solution;
 	}
