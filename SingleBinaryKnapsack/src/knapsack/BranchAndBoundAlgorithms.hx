@@ -83,12 +83,13 @@ class BranchAndBoundAlgorithms {
 		var bestWeight: Float = 0,
 			idsByIndex = new Vector(valuables.length),
 			idsInSolution = new BitMap(sortedValuables.length);
-		for (i in 0...valuables.length) idsByIndex[i] = valuables[i].Id;
 		for (i in 0...sortedValuables.length) {
 			if (bestInSolution[i]) {
-				bestValue += sortedValuables[i].Value;
-				bestWeight += sortedValuables[i].Weight;
-				idsInSolution.set(sortedValuables[i].Index);
+				var sortedValuable = sortedValuables[i];
+				bestValue += sortedValuable.Value;
+				bestWeight += sortedValuable.Weight;
+				idsInSolution.set(sortedValuable.Index);
+				idsByIndex[sortedValuable.Index] = sortedValuable.Id;
 			}
 		}
 
