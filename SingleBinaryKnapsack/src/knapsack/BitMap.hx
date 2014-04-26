@@ -34,10 +34,11 @@ class BitMap {
 		var index = 0,
 			mappedVector = new Vector<String>(this.count);
 		for (i in 0...this.bits.length) {
-			var int = this.bits[i];
+			var int = this.bits[i],
+				iOffset = i * 32;
 			for (j in 0...32) {
 				if (int & (1 << j) != 0) {
-					mappedVector[index++] = map[i * 32 + j];
+					mappedVector[index++] = map[iOffset + j];
 				}
 			}
 		}
