@@ -47,8 +47,8 @@ class Solution {
 		solution.Valuables = linesSansComments.slice(1, numberOfValuables + OFFSET_WEIGHT_LIMIT).mapi(Valuable.fromString);
 		solution.WeightLimit = Std.parseFloat(linesSansComments[numberOfValuables + OFFSET_WEIGHT_LIMIT]);
 		solution.Best = Valuables.fromString(linesSansComments[numberOfValuables + OFFSET_BEST]);
-		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
-		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).map(Valuables.fromString);
+		solution.HeatMap = linesSansComments.slice(numberOfValuables + OFFSET_HEAT_MAP, numberOfValuables + OFFSET_EFFICIENT_FRONTIER).toValuables();
+		solution.EfficientFrontier = linesSansComments.slice(numberOfValuables + OFFSET_EFFICIENT_FRONTIER).toValuables();
 
 		if (numberOfValuables <= 20) {
 			// As the size of the solution increases the below "join" tends to cause out of memory errors.
@@ -136,4 +136,5 @@ class Solution {
 	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
 	static function notEmpty(lines: Array<String>) return lines.filter(function(line) return line.ltrim().length > 0);
 	static function withOutComments(lines: Array<String>) return lines.filter(function(line) return !line.ltrim().startsWith("#"));
+	static function toValuables(lines: Array<String>) return [for(line in lines) Valuables.fromString(line)];
 }
