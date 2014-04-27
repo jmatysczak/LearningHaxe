@@ -8,9 +8,10 @@ using knapsack.FloatTools;
 
 class DynamicProgrammingAlgorithms {
 	public static function findEfficientFrontier(valuables: Array<Valuable>) {
-		var emptyBitMap = new BitMap(valuables.length),
+		var cache = new EFValuablesCache(),
+			emptyBitMap = new BitMap(valuables.length),
 			sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
-			firstEFValuables = new EFValuables(sortedValuables[0].Index, emptyBitMap, sortedValuables[0].Value, sortedValuables[0].Weight);
+			firstEFValuables = new EFValuables(sortedValuables[0].Index, emptyBitMap, sortedValuables[0].Value, sortedValuables[0].Weight, cache);
 
 		for (i in 1...sortedValuables.length) {
 			var previous = firstEFValuables.toArray(),
@@ -22,6 +23,8 @@ class DynamicProgrammingAlgorithms {
 				var weight = previousSortedValuable.Weight + currentSortedValuable.Weight;
 				startEFValuables = startEFValuables.insert(currentSortedValuable.Index, previousSortedValuable.SolutionIndexes, value, weight);
 			}
+
+			cache.compact();
 		}
 
 		return firstEFValuables.toArrayOfValuables(valuables);
@@ -39,8 +42,11 @@ private class EFValuables {
 	public var Weight: Float;
 	public var SolutionIndexes: BitMap;
 
-	public function new(index, indexes: BitMap, value, weight, ?next) {
+	private var Cache: EFValuablesCache;
+
+	public function new(index, indexes: BitMap, value, weight, cache, ?next) {
 		this.Next = next;
+		this.Cache = cache;
 		this.Value = value;
 		this.Weight = weight;
 		this.SolutionIndexes = indexes.clone();
@@ -77,15 +83,58 @@ private class EFValuables {
 		
 		var next = current.Next;
 		if (next == null) {
-			current.Next = new EFValuables(id, ids, value, weight);
+			current.Next = this.Cache.get(id, ids, value, weight);
 			return current.Next;
 		}
 
 		if (weight == next.Weight && value <= next.Value) return next;
 		
-		while (next != null && next.Value <= value) next = next.Next;
+		while (next != null && next.Value <= value) next = this.Cache.addAndReturnNext(next);
 
-		current.Next = new EFValuables(id, ids, value, weight, next);
+		current.Next = this.Cache.get(id, ids, value, weight, next);
 		return current.Next;
+	}
+}
+
+private class EFValuablesCache {
+	var First: EFValuables = null;
+	var Last: EFValuables = null;
+
+	var FirstHot: EFValuables = null;
+	var LastHot: EFValuables = null;
+
+	public function new() { }
+
+	public function addAndReturnNext(valuable: EFValuables) {
+		var next = valuable.Next;
+		if (this.FirstHot == null) this.FirstHot = valuable;
+		if (this.LastHot != null) this.LastHot.Next = valuable;
+		this.LastHot = valuable;
+		return next;
+	}
+
+	public function get(index, indexes, value, weight, ?next) {
+		var valuable = this.First;
+		if (valuable == null) return new EFValuables(index, indexes, value, weight, this, next);
+		this.First = valuable.Next;
+		valuable.Next = next;
+		valuable.Value = value;
+		valuable.Weight = weight;
+		indexes.clone(valuable.SolutionIndexes);
+		valuable.SolutionIndexes.set(index);
+		return valuable;
+	}
+
+	public function compact() {
+		if (this.FirstHot == null) return;
+		if (this.First == null) {
+			this.First = this.FirstHot;
+		} else {
+			this.Last.Next = this.FirstHot;
+		}
+		this.Last = this.LastHot;
+		this.Last.Next = null;
+		this.FirstHot = null;
+		this.LastHot = null;
 	}
 }

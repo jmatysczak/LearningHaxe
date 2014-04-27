@@ -62,9 +62,15 @@ class BitMapTest extends TestCase {
 
 		var map = new Vector(100);
 		for(i in 0...4) map[20 + i * 20] = 'Some value: ${20 + i * 20}';
-		var mappedVector = bitMap.toMappedVector(map);
+		var mappedVector = clonedBitMap.toMappedVector(map);
 
 		assertEquals(4, mappedVector.length);
-		for(i in 0...4) assertEquals('Some value: ${20 + i * 20}', mappedVector[i]);
+		for (i in 0...4) assertEquals('Some value: ${20 + i * 20}', mappedVector[i]);
+
+		var existingBitMap = new BitMap(100);
+		bitMap.clone(existingBitMap);
+		mappedVector = existingBitMap.toMappedVector(map);
+		assertEquals(4, mappedVector.length);
+		for (i in 0...4) assertEquals('Some value: ${20 + i * 20}', mappedVector[i]);
 	}
 }

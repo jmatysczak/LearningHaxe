@@ -16,8 +16,8 @@ class BitMap {
 		#end
 	}
 
-	public function clone() {
-		var c = new BitMap(this.capacity);
+	public function clone(?c: BitMap) {
+		if(c == null) c = new BitMap(this.capacity);
 		Vector.blit(this.bits, 0, c.bits, 0, this.bits.length);
 		c.count = this.count;
 		return c;
