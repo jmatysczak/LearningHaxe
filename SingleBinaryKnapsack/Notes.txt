@@ -8,3 +8,8 @@ There appears to be a bug in C#/Java that is outputted for generic Vectors. (Or 
 it while using Vectors). Basically, the result is typed as and object array (object[]). Instead of
 the actual concrete type. The code compiles and the neko runtime executes successfully, but the C#
 and Java versions fail with class cast exceptions.
+
+It appears there is an issue with Array::map using a static method of another class. A closure is
+created. If the closure is called a lot (map is called on an Array with "a lot" of items) it
+appears there might be a memory leak. See the change before commit
+fccb25ade47c4e38831a040c34b6b6b5d2352c13 (Apr 26 21:57:18 2014).
