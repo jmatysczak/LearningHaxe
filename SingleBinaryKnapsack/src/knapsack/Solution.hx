@@ -37,7 +37,7 @@ class Solution {
 
 	public static function fromString(s: String) {
 		var solution = new Solution("From String"),
-			linesSansComments = s.lines().notEmpty().withOutComments(),
+			linesSansComments = s.lines(),
 			numberOfValuables = Std.parseInt(linesSansComments[0].split(",")[0]),
 			numberOfHeatMapSlots = Std.parseInt(linesSansComments[0].split(",")[1]),
 		    OFFSET_WEIGHT_LIMIT = 1,
@@ -133,8 +133,9 @@ class Solution {
 		if (errors.length > 0) throw '$message\n$errors\nExpected solution:\n$expected\n\nActual solution:\n$this';
 	}
 
-	static function lines(text: String) return text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
-	static function notEmpty(lines: Array<String>) return lines.filter(function(line) return line.ltrim().length > 0);
-	static function withOutComments(lines: Array<String>) return lines.filter(function(line) return !line.ltrim().startsWith("#"));
+	static function lines(text: String) {
+		var rawLines = text.split(text.indexOf("\r") == -1 ? "\n" : "\r\n");
+		return [for (line in rawLines) if (line.ltrim().length > 0 && !line.ltrim().startsWith("#")) line];
+	}
 	static function toValuables(lines: Array<String>) return [for(line in lines) Valuables.fromString(line)];
 }
