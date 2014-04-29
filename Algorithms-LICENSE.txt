@@ -1,14 +1,20 @@
-BinaryKnapsack/src/knapsack/BranchAndBoundAlgorithms.hx
+SingleBinaryKnapsack/src/knapsack/BranchAndBoundAlgorithms.hx
 findByHorowitzSahni
 Horowitz-Sahni
 Chapter 2.5.1
 "Knapsack Problems: Algorithms and Computer Implementations"
 http://www.or.deis.unibo.it/knapsack.html
 
-BinaryKnapsack/src/knapsack/ProblemFactory.hx
+SingleBinaryKnapsack/src/knapsack/ProblemFactory.hx
+createProblems
 Where are the hard knapsack problems?
 David Pisinger
 AND
 Chapter 2.10
 "Knapsack Problems: Algorithms and Computer Implementations"
 http://www.or.deis.unibo.it/knapsack.html
+
+SingleBinaryKnapsack/src/knapsack/DynamicProgrammingAlgorithms.hx
+findEfficientFrontier
+I don't remember where I first read about the dynamic programming implementation, probably
+Wikipedia.
