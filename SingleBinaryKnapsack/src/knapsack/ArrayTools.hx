@@ -5,9 +5,9 @@ import haxe.ds.Vector.Vector;
 using knapsack.VectorTools;
 
 class ArrayTools {
-	public static function toStrVector<A>(a: Array<A>): Vector<String> {
+	public static function toStrVector(a: Array<String>): Vector<String> {
 		var v = new Vector(a.length);
-		for (i in 0...a.length) v[i] = Std.string(a[i]);
+		for (i in 0...a.length) v[i] = a[i];
 		return v;
 	}
 
