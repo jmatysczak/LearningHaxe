@@ -10,7 +10,7 @@ class DynamicProgrammingAlgorithms {
 	public static function findEfficientFrontier(valuables: Array<Valuable>) {
 		var cache = new EFValuablesCache(),
 			emptyBitMap = new BitMap(valuables.length),
-			sortedValuables = valuables.copy().sortByWeightAscValueDesc(),
+			sortedValuables = valuables.copy().sortByDensityDesc(),
 			firstEFValuables = new EFValuables(sortedValuables[0].Index, emptyBitMap, sortedValuables[0].Value, sortedValuables[0].Weight, cache);
 
 		for (i in 1...sortedValuables.length) {
@@ -30,8 +30,11 @@ class DynamicProgrammingAlgorithms {
 		return firstEFValuables.toArrayOfValuables(valuables);
 	}
 
-	static function sortByWeightAscValueDesc(valuables: Array<Valuable>) {
-		valuables.sort(function(dv1, dv2) return dv1.Weight.compareTo(dv2.Weight, dv2.Value.compareTo(dv1.Value)));
+	static function sortByDensityDesc(valuables: Array<Valuable>) {
+		valuables.sort(function(dv1, dv2) return (dv2.Value/dv2.Weight).compareTo(dv1.Value/dv1.Weight));
+		var minIndex = 0;
+		for (i in 1...valuables.length) if (valuables[i].Weight < valuables[minIndex].Weight) minIndex = i;
+		valuables.insert(0, valuables.splice(minIndex, 1)[0]);
 		return valuables;
 	}
 }
