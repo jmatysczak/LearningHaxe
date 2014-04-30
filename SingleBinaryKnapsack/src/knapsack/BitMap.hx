@@ -7,7 +7,7 @@ class BitMap {
 	public var count(default, null):Int;
 	public var capacity(default, null):Int;
 
-	public function new(c: Int ) {
+	public function new(c: Int) {
 		this.count = 0;
 		this.capacity = c;
 		this.bits = new Vector(Math.ceil(this.capacity / 32));
