@@ -17,7 +17,7 @@ class Valuables {
 	}
 
 	public function toString() {
-		return '$Value\t$Weight\t${Ids.toString()}';
+		return '$Value\t$Weight\t$Ids';
 	}
 
 	public static function fromString(s: String) {
