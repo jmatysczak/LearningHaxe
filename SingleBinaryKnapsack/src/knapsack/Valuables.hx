@@ -27,7 +27,7 @@ class Valuables {
 			weight = Std.parseFloat(s.substring(weightStart, weightFinish)),
 			ids = new BitMap(s.length - weightFinish - 1),
 			idsStart = weightFinish + 1;
-		while ((weightFinish = s.indexOf("1", weightFinish + 1)) != -1) ids.set(weightFinish - idsStart);
+		while (++weightFinish < s.length) if(s.charAt(weightFinish) == "1") ids.set(weightFinish - idsStart);
 		return new Valuables(ids, value, weight);
 	}
 }
