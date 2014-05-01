@@ -72,6 +72,7 @@ private class EFValuables {
 	public function toArrayOfValuables() {
 		var valuable = this,
 			valuables = new Array<Valuables>();
+		Reflect.setField(valuables, "__a", new Vector<Valuables>(Std.int(this.cachedValuables.length * 1.2)));
 		while (valuable != null) {
 			valuables.push(new Valuables(valuable.SolutionIndexes, valuable.Value, valuable.Weight));
 			valuable = valuable.Next;
