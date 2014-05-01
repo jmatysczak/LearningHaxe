@@ -56,11 +56,14 @@ private class EFValuables {
 		this.SolutionIndexes.set(index);
 	}
 
+	private var cachedValuables: Array<EFValuables>;
 	public function toArray() {
-		var valuable = this,
-			valuables = new Array<EFValuables>();
+		if (this.cachedValuables == null) this.cachedValuables = new Array<EFValuables>();
+		var i = 0,
+			valuable = this,
+			valuables = this.cachedValuables;
 		while (valuable != null) {
-			valuables.push(valuable);
+			valuables[i++] = valuable;
 			valuable = valuable.Next;
 		}
 		return valuables;
