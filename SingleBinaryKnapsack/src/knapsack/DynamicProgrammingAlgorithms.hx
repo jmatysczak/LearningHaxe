@@ -27,7 +27,7 @@ class DynamicProgrammingAlgorithms {
 			cache.compact();
 		}
 
-		return firstEFValuables.toArrayOfValuables(valuables);
+		return firstEFValuables.toArrayOfValuables();
 	}
 
 	static function sortByDensityDesc(valuables: Array<Valuable>) {
@@ -69,14 +69,14 @@ private class EFValuables {
 		return valuables;
 	}
 
-	public function toArrayOfValuables(valuables: Array<Valuable>) {
+	public function toArrayOfValuables() {
 		var valuable = this,
-			valuabless = new Array<Valuables>();
+			valuables = new Array<Valuables>();
 		while (valuable != null) {
-			valuabless.push(new Valuables(valuable.SolutionIndexes, valuable.Value, valuable.Weight));
+			valuables.push(new Valuables(valuable.SolutionIndexes, valuable.Value, valuable.Weight));
 			valuable = valuable.Next;
 		}
-		return valuabless;
+		return valuables;
 	}
 
 	public function insert(id, ids, value, weight) {
