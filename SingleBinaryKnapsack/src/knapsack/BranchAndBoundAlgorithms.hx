@@ -81,7 +81,6 @@ class BranchAndBoundAlgorithms {
 
 		bestValue = 0;
 		var bestWeight: Float = 0,
-			idsByIndex = new Vector(valuables.length),
 			idsInSolution = new BitMap(sortedValuables.length);
 		for (i in 0...sortedValuables.length) {
 			if (bestInSolution[i]) {
@@ -89,11 +88,10 @@ class BranchAndBoundAlgorithms {
 				bestValue += sortedValuable.Value;
 				bestWeight += sortedValuable.Weight;
 				idsInSolution.set(sortedValuable.Index);
-				idsByIndex[sortedValuable.Index] = sortedValuable.Id;
 			}
 		}
 
-		return new Valuables(idsInSolution.toMappedVector(idsByIndex), bestValue, bestWeight);
+		return new Valuables(idsInSolution, bestValue, bestWeight);
 	}
 
 	static function sortByDensityDesc(valuables: Array<DenseValuable>) {

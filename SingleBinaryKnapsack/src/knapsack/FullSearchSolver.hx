@@ -72,7 +72,9 @@ class FullSearchSolver implements Solver {
 	}
 
 	public static function getIdsInSolution(valuables: Array<Valuable>, inSolution: Int) {
-		return [for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) valuables[i].Id].toStrVector();
+		var bitMap = new BitMap(valuables.length);
+		for (i in 0...valuables.length) if (inSolution.hasBitSet(i)) bitMap.set(i);
+		return bitMap;
 	}
 
 	static function toValuables(heatMapItems: Vector<HMValuables>, valuables: Array<Valuable>) {

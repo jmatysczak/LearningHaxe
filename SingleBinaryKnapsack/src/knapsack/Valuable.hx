@@ -26,8 +26,8 @@ class Valuable {
 	}
 
 	public static function allIds(valuables: Array<Valuable>) {
-		var ids = new Vector(valuables.length);
-		for (valuable in valuables) ids[valuable.Index] = valuable.Id;
+		var ids = new BitMap(valuables.length);
+		for (i in 0...valuables.length) ids.set(i);
 		return ids;
 	}
 

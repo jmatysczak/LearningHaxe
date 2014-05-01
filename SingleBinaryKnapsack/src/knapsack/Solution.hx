@@ -102,10 +102,9 @@ class Solution {
 	static function createErrorMessage(message, expected, actual) return '$message\n\tExpected: $expected\n\tActual:   $actual\n\n';
 	static function isNotCloseTo(me: Valuables, other: Valuables) {
 		var tolerance = 0.000000001;
-		if (me.Ids.length != other.Ids.length) return true;
+		if (!me.Ids.equals(other.Ids)) return true;
 		if (Math.abs(me.Value - other.Value) > tolerance) return true;
 		if (Math.abs(me.Weight - other.Weight) > tolerance) return true;
-		for (i in 0...me.Ids.length) if (me.Ids[i] != other.Ids[i]) return true;
 		return false;
 	}
 

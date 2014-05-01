@@ -68,11 +68,9 @@ private class EFValuables {
 
 	public function toArrayOfValuables(valuables: Array<Valuable>) {
 		var valuable = this,
-			valuabless = new Array<Valuables>(),
-			idsByIndex = new Vector(valuables.length);
-		for (i in 0...valuables.length) idsByIndex[i] = valuables[i].Id;
+			valuabless = new Array<Valuables>();
 		while (valuable != null) {
-			valuabless.push(new Valuables(valuable.SolutionIndexes.toMappedVector(idsByIndex), valuable.Value, valuable.Weight));
+			valuabless.push(new Valuables(valuable.SolutionIndexes, valuable.Value, valuable.Weight));
 			valuable = valuable.Next;
 		}
 		return valuabless;

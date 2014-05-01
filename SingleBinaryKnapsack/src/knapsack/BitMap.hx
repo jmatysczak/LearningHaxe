@@ -30,18 +30,20 @@ class BitMap {
 		this.count++;
 	}
 
-	public function toMappedVector(map: Vector<String>): Vector<String> {
-		var index = 0,
-			mappedVector = new Vector<String>(this.count);
-		for (i in 0...this.bits.length) {
-			var int = this.bits[i],
-				iOffset = i * 32;
-			for (j in 0...32) {
-				if (int & (1 << j) != 0) {
-					mappedVector[index++] = map[iOffset + j];
-				}
-			}
-		}
-		return mappedVector;
+	public function isSet(i: Int) {
+		return (this.bits[Math.floor(i / 32)] & (1 << (i % 32))) != 0;
+	}
+
+	public function equals(rhs: BitMap): Bool {
+		if (this.count != rhs.count) return false;
+		if (this.capacity != rhs.capacity) return false;
+		for (i in 0...this.bits.length) if (this.bits[i] != rhs.bits[i]) return false;
+		return true;
+	}
+
+	public function toString() {
+		var buf = new StringBuf();
+		for (bit in this.bits) for (i in 0...32) buf.add((bit & (1 << i)) == 0 ? "0" : "1");
+		return buf.toString().substr(0, this.capacity);
 	}
 }

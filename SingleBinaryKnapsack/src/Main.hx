@@ -7,6 +7,7 @@ import knapsack.DynamicProgrammingAlgorithms.findEfficientFrontier;
 import knapsack.FullSearchSolver;
 import knapsack.ProblemFactory;
 import knapsack.Solution;
+import knapsack.ValuablesTest;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -23,6 +24,7 @@ class Main {
 			Sys.println("");
 			var testRunner = new TestRunner();
 			testRunner.add(new BitMapTest());
+			testRunner.add(new ValuablesTest());
 			var testsPassed = testRunner.run();
 			if (!testsPassed) return;
 			Sys.println("");
